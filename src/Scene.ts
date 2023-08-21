@@ -6,7 +6,12 @@ export default class Scene extends THREE.Scene
 {
     private readonly mtlLoader = new MTLLoader();
     private readonly objLoader = new OBJLoader();
-    
+    private readonly camera: THREE.PerspectiveCamera;
+
+    constructor(camera: THREE.PerspectiveCamera) {
+        super();
+        this.camera = camera;
+    }    
     
     async Initialize() {
         
@@ -18,9 +23,11 @@ export default class Scene extends THREE.Scene
         target3.position.set(-.5, 1, 0);
         const target4 = await this.createTarget();
         target4.position.set(.5, 1, 0);
-
+        
         const blaster = await this.createBlaster();
-        blaster.position.set(0, -.5, 3);
+        blaster.position.set(0, 0, 3);
+        blaster.add(this.camera);
+        this.camera.position.set(0, .4, 1);
 
         this.add(target1, target2, target3, target4)
         this.add(blaster);
