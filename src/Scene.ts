@@ -26,32 +26,35 @@ export default class Scene extends THREE.Scene
     async Initialize() {
         //objefcts
         const target1 = await this.createTarget();
-        target1.position.set(-1.5, 1, 0);
+        target1.position.set(-1.5, 0, -1);
         const target2 = await this.createTarget();
-        target2.position.set(1.5, 1, 0);
+        target2.position.set(1.5, 0, -1);
         const target3 = await this.createTarget();
-        target3.position.set(-.5, 1, 0);
+        target3.position.set(-.5, 0, -1);
         const target4 = await this.createTarget();
-        target4.position.set(.5, 1, 0);
+        target4.position.set(.5, 0,  -1);
         
-        const blaster = await this.createBlaster();
-        blaster.position.set(0, 0, 3);
-        blaster.add(this.camera);
+        this.blaster = await this.createBlaster();
+        this.blaster.position.set(0, 0, 3);
+        this.blaster.add(this.camera);
         this.camera.position.set(0, .4, 1);
 
         this.add(target1, target2, target3, target4)
-        this.add(blaster);
+        this.add(this.blaster);
 
         //lighting
         const light = new THREE.DirectionalLight(0xffffff, 1);
         light.position.set(0, 5, 5);
         this.add(light);
 
-        //event listeners
-        window.addEventListener('keydown', (e) => this.handleKeyDown.add(e.key));
-        window.addEventListener('keyup', (e) => this.handleKeyUp.add(e.key));
+    
+        window.addEventListener('keydown', (e) => this.handleKeyDown(e));
+        window.addEventListener('keyup', (e) => this.handleKeyUp(e));
     }
 
+    
+
+//CREATE OBJECTS
     private async createTarget() {
         const targetMtl = await this.mtlLoader.loadAsync('assets/targetB.mtl');
         targetMtl.preload();
@@ -69,15 +72,71 @@ export default class Scene extends THREE.Scene
         return blasterObj;
     }
 
+    private async createBullet() {
+        if (!this.blaster)
+		{
+			return
+		}
+
+		if (this.bulletMtl)
+		{
+			this.objLoader.setMaterials(this.bulletMtl)
+		}
+
+		const bulletModel = await this.objLoader.loadAsync('assets/foamBulletB.obj')
+
+		this.camera.getWorldDirection(this.directionVector)
+
+		const aabb = new THREE.Box3().setFromObject(this.blaster)
+		const size = aabb.getSize(new THREE.Vector3())
+
+		const vec = this.blaster.position.clone()
+		vec.y += 0.06
+
+		bulletModel.position.add(
+			vec.add(
+				this.directionVector.clone().multiplyScalar(size.z * 0.5)
+			)
+		)
+
+		// rotate children to match gun for simplicity
+		bulletModel.children.forEach(child => child.rotateX(Math.PI * -0.5))
+
+		// use the same rotation as as the gun
+		bulletModel.rotation.copy(this.blaster.rotation)
+
+		this.add(bulletModel)
+
+		const b = new Bullet(bulletModel)
+		b.setVelocity(
+			this.directionVector.x * 0.2,
+			this.directionVector.y * 0.2,
+			this.directionVector.z * 0.2
+		)
+
+		this.bullets.push(b)
+	}
+
+	
+
+//EVENT LISTENERS
     private handleKeyDown(e: KeyboardEvent) {
         this.keyDown.add(e.key.toLowerCase());
     }
 
     private handleKeyUp(e: KeyboardEvent) {
         this.keyDown.delete(e.key.toLowerCase());
+
+        if (e.key === ' ')
+        {
+            this.createBullet()
+        }
     }
 
 
+
+
+//UPDATES
     private handleInput() {
             if (!this.blaster)
             {
@@ -134,11 +193,46 @@ export default class Scene extends THREE.Scene
                 }
             }
     }
+
+    private updateBullets()
+	{
+		for (let i = 0; i < this.bullets.length; ++i)
+		{
+			const b = this.bullets[i]
+			b.update()
+
+			if (b.shouldRemove)
+			{
+				this.remove(b.group)
+				this.bullets.splice(i, 1)
+				i--
+			}
+			else
+			{
+				for (let j = 0; j < this.targets.length; ++j)
+				{
+					const target = this.targets[j]
+					if (target.position.distanceToSquared(b.group.position) < 0.05)
+					{
+						this.remove(b.group)
+						this.bullets.splice(i, 1)
+						i--
+
+						target.visible = false
+						setTimeout(() => {
+							target.visible = true
+						}, 1000)
+					}
+				}
+			}
+		}
+	}
     
 
 
     Update() {
-        //Update
+        this.handleInput();
+        this.updateBullets();
     }
 
 }
