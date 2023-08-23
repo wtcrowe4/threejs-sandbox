@@ -40,6 +40,7 @@ export default class Scene extends THREE.Scene
         this.camera.position.set(0, .4, 1);
 
         this.add(target1, target2, target3, target4)
+        this.targets.push(target1, target2, target3, target4)
         this.add(this.blaster);
 
         //lighting
@@ -212,7 +213,7 @@ export default class Scene extends THREE.Scene
 				for (let j = 0; j < this.targets.length; ++j)
 				{
 					const target = this.targets[j]
-					if (target.position.distanceToSquared(b.group.position) < 0.05)
+					if (target.position.distanceToSquared(b.group.position) < 0.03)
 					{
 						this.remove(b.group)
 						this.bullets.splice(i, 1)
