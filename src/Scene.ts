@@ -222,7 +222,7 @@ export default class Scene extends THREE.Scene
 						target.visible = false
 						setTimeout(() => {
 							target.visible = true
-						}, 1000)
+						}, 2000)
 					}
 				}
 			}
