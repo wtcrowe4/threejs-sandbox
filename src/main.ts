@@ -1,8 +1,14 @@
 import * as THREE from 'three';
 import Scene from './Scene';
+import * as dat from 'dat.gui';
 
 
 
+const gui = new dat.GUI();
+gui.addFolder('Camera');
+gui.addFolder('Lighting');
+gui.addFolder('Objects');
+gui.addFolder('Scene');
 
 const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
 const renderer = new THREE.WebGLRenderer();
@@ -21,4 +27,5 @@ function animate() {
     requestAnimationFrame(animate);
     renderer.render(scene, camera);
 }
+
 animate();
