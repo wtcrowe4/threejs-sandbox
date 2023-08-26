@@ -128,7 +128,7 @@ export default class ShooterScene extends THREE.Scene
     private handleKeyUp(e: KeyboardEvent) {
         this.keyDown.delete(e.key.toLowerCase());
 
-        if (e.key === 'f')
+        if (e.key === ' ')
         {
             this.createBullet()
         }

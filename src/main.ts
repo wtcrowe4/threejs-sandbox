@@ -1,5 +1,5 @@
 import ShooterGame from './Shooter/ShooterMain';
-//  import PuttPuttGame from './PuttPutt/PuttPuttMain';
+import PuttPuttGame from './PuttPutt/PuttPuttMain';
 
 import './style.css';
 
@@ -33,15 +33,37 @@ import './style.css';
 //const gameContainer = document.querySelector('#gamecontainer');
 
    
+//home button
+const homeBtn = document.querySelector('#homebtn');
+homeBtn?.addEventListener('click', () => {
+    window.location.reload();
+});
 
 
 
+//shooter button
 const shooterBtn = document.querySelector('#shooterbtn');
 shooterBtn?.addEventListener('click', () => {
+    //currently not using gamecontainer
     //if gamecontainer has children, remove them
     const gameContainer = document.querySelector('#gamecontainer');
-    gameContainer?.removeChild(gameContainer.firstChild!);
+    while (gameContainer?.firstChild) {
+        gameContainer.firstChild.remove();
+    }
     const shooter = new ShooterGame();
     shooter.start();
+    //deselect the button after starting the game so spacebar doesn't start the game again
+    (shooterBtn as HTMLButtonElement).blur();
+    //dont allow the button to be clicked again and create a new scene
+    shooterBtn?.setAttribute('disabled', 'true');
+});
+
+//puttputt button
+const puttPuttBtn = document.querySelector('#puttputtbtn');
+puttPuttBtn?.addEventListener('click', () => {
+    const puttPutt = new PuttPuttGame();
+    puttPutt.start();
+    shooterBtn?.setAttribute('disabled', 'true');
+    (puttPuttBtn as HTMLButtonElement).blur();
 });
 
