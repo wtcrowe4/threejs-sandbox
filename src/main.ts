@@ -1,31 +1,30 @@
-import * as THREE from 'three';
-import Scene from './Scene';
-import * as dat from 'dat.gui';
+import ShooterGame from './Shooter/ShooterMain';
+//  import PuttPuttGame from './PuttPutt/PuttPuttMain';
 
+import './style.css';
 
+class NavigationPage {
+    createButton(label: string, gameInstance: any): HTMLButtonElement {
+        const button = document.createElement('button');
+        button.textContent = label;
+        button.addEventListener('click', () => gameInstance.start());
+        return button;
+    }
 
-const gui = new dat.GUI();
-gui.addFolder('Camera');
-gui.addFolder('Lighting');
-gui.addFolder('Objects');
-gui.addFolder('Scene');
-
-const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-const renderer = new THREE.WebGLRenderer();
-
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-
-const scene = new Scene(camera);
-scene.Initialize();
-
-renderer.render(scene, camera);
-
-function animate() {
-    scene.Update();
-    requestAnimationFrame(animate);
-    renderer.render(scene, camera);
+    render(games: { label: string, gameInstance: any }[]) {
+        games.forEach(game => {
+            const button = this.createButton(game.label, game.gameInstance);
+            document.body.appendChild(button);
+        });
+    }
 }
 
-animate();
+const navigationPage = new NavigationPage();
+const shooter = new ShooterGame();
+//const puttPutt = new PuttPuttGame();
+navigationPage.render([
+    { label: 'Shooter Game', gameInstance: shooter },
+    //{ label: 'PuttPutt Game', gameInstance: puttPutt },
+    
+]);
+

@@ -3,7 +3,7 @@ import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import Bullet from './Bullet.ts';
 
-export default class Scene extends THREE.Scene 
+export default class ShooterScene extends THREE.Scene 
 {
     private readonly mtlLoader = new MTLLoader();
     private readonly objLoader = new OBJLoader();
@@ -57,19 +57,19 @@ export default class Scene extends THREE.Scene
 
 //CREATE OBJECTS
     private async createTarget() {
-        const targetMtl = await this.mtlLoader.loadAsync('assets/targetB.mtl');
+        const targetMtl = await this.mtlLoader.loadAsync('assets/Shooter/targetB.mtl');
         targetMtl.preload();
         this.objLoader.setMaterials(targetMtl);
-        const targetObj = await this.objLoader.loadAsync('assets/targetB.obj');
+        const targetObj = await this.objLoader.loadAsync('assets/Shooter/targetB.obj');
         targetObj.rotateY(Math.PI*.5);
         return targetObj;
     }
 
     private async createBlaster() {
-        const blasterMtl = await this.mtlLoader.loadAsync('assets/blasterB.mtl');
+        const blasterMtl = await this.mtlLoader.loadAsync('assets/Shooter/blasterB.mtl');
         blasterMtl.preload();
         this.objLoader.setMaterials(blasterMtl);
-        const blasterObj = await this.objLoader.loadAsync('assets/blasterB.obj');
+        const blasterObj = await this.objLoader.loadAsync('assets/Shooter/blasterB.obj');
         return blasterObj;
     }
 
@@ -84,7 +84,7 @@ export default class Scene extends THREE.Scene
 			this.objLoader.setMaterials(this.bulletMtl)
 		}
 
-		const bulletModel = await this.objLoader.loadAsync('assets/foamBulletB.obj')
+		const bulletModel = await this.objLoader.loadAsync('assets/Shooter/foamBulletB.obj')
 
 		this.camera.getWorldDirection(this.directionVector)
 
@@ -237,20 +237,3 @@ export default class Scene extends THREE.Scene
     }
 
 }
-
-
-
-
-
-// const box_geometry = new THREE.BoxGeometry(3);
-//         const sphere_geometry = new THREE.SphereGeometry(1, 22);
-//         const cone_geometry = new THREE.ConeGeometry(1, 5, 32);
-//         const lime_material = new THREE.MeshPhongMaterial({ color: 0x00ff00 });
-//         const red_material = new THREE.MeshPhongMaterial({ color: 0xff0000 });
-//         const blue_material = new THREE.MeshPhongMaterial({ color: 0x0000ff });
-//         const cube = new THREE.Mesh(box_geometry, lime_material);
-//         const sphere = new THREE.Mesh(sphere_geometry, red_material);
-//         const cone = new THREE.Mesh(cone_geometry, blue_material);
-//         this.add(sphere);
-//         this.add(cone);
-//         this.add(cube);
