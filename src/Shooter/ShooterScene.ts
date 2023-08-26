@@ -128,7 +128,7 @@ export default class ShooterScene extends THREE.Scene
     private handleKeyUp(e: KeyboardEvent) {
         this.keyDown.delete(e.key.toLowerCase());
 
-        if (e.key === ' ')
+        if (e.key === 'f')
         {
             this.createBullet()
         }
@@ -162,7 +162,7 @@ export default class ShooterScene extends THREE.Scene
     
             this.camera.getWorldDirection(dir)
     
-            const speed = 0.1
+            const speed = 0.05
     
             if (this.keyDown.has('w') || this.keyDown.has('arrowup'))
             {
@@ -181,14 +181,14 @@ export default class ShooterScene extends THREE.Scene
                 if (this.keyDown.has('a') || this.keyDown.has('arrowleft'))
                 {
                     this.blaster.position.add(
-                        strafeDir.applyAxisAngle(upVector, Math.PI * 0.5)
+                        strafeDir.applyAxisAngle(upVector, Math.PI * 0.25)
                             .multiplyScalar(speed)
                     )
                 }
                 else if (this.keyDown.has('d') || this.keyDown.has('arrowright'))
                 {
                     this.blaster.position.add(
-                        strafeDir.applyAxisAngle(upVector, Math.PI * -0.5)
+                        strafeDir.applyAxisAngle(upVector, Math.PI * -0.25)
                             .multiplyScalar(speed)
                     )
                 }
