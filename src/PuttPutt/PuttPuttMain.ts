@@ -26,12 +26,12 @@ export default class PuttPuttGame {
         this.scene.Initialize();
 
         this.renderer.render(this.scene, this.camera);
-        this.animate();
+        this.start();
     }
 
-    public animate(): void {
+    public start(): void {
         this.scene.Update();
-        requestAnimationFrame(() => this.animate());
+        requestAnimationFrame(() => this.start());
         this.renderer.render(this.scene, this.camera);
     }
 
