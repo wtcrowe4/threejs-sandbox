@@ -19,11 +19,9 @@ export default class PuttPuttScene extends THREE.Scene
     
 
     private ball?: THREE.Group
-    private ballMtl?: MTLLoader.MaterialCreator
     private club?: THREE.Group
-    private clubMtl?: MTLLoader.MaterialCreator
     private hole?: THREE.Group
-    private holeMtl?: MTLLoader.MaterialCreator
+    
 
 
 
@@ -41,15 +39,23 @@ export default class PuttPuttScene extends THREE.Scene
         club.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 2);
         club.rotateX(-.3);
         club.rotateY(Math.PI);
-        club.position.set(-.25, .6, .05);
+        club.position.set(-.25, .7, .05);
         this.ball = ball;
         this.club = club;
         
+        
+        
+        
+        
+        
         const hole = new Hole();
-        hole.position.set(0, 0, -1);
+
+        this.hole = await hole.createHole();
+        this.hole.position.set(0, -.2, -.2);
+
         
         
-        this.add(ball, club, hole);
+        this.add(this.ball, this.club, this.hole);
 
         //lighting
         const light = new THREE.DirectionalLight(0xffffff, 1);
@@ -57,7 +63,7 @@ export default class PuttPuttScene extends THREE.Scene
         this.add(light);
 
         //camera
-        this.camera.position.set(0, 2, 1);
+        this.camera.position.set(0, 1.5, 1.5);
         this.camera.lookAt(0, 0, -1);
 
         window.addEventListener('keydown', (e) => this.handleKeyDown(e));
@@ -68,30 +74,29 @@ export default class PuttPuttScene extends THREE.Scene
     //CREATE OBJECTS
     private async createBall() {
         const ballMtl = await this.mtlLoader.loadAsync('assets/PuttPutt/ball_blue.mtl');
-        ballMtl.preload();
-        this.objLoader.setMaterials(ballMtl);
-        const ballObj = await this.objLoader.loadAsync('assets/PuttPutt/ball_blue.obj');
+        const ballObj = await this.objLoader.setMaterials(ballMtl).loadAsync('assets/PuttPutt/ball_blue.obj');
         return ballObj;
     }
 
     private async createClub() {
         const clubMtl = await this.mtlLoader.loadAsync('assets/PuttPutt/club_blue.mtl');
-        const club = await this.objLoader.setMaterials(clubMtl).loadAsync('assets/PuttPutt/club_blue.obj');
-        this.clubMtl = clubMtl;
-        return club;
+        const clubObj = await this.objLoader.setMaterials(clubMtl).loadAsync('assets/PuttPutt/club_blue.obj');
+        return clubObj;
     }
 
+   
+
     //HANDLE KEYBOARD INPUT
-    private handleKeyDown(event: KeyboardEvent) {
-        this.keyDown.add(event.key);
-        if (event.key == ' ') { 
+    private handleKeyDown(e: KeyboardEvent) {
+        this.keyDown.add(e.key.toLowerCase());
+        if (e.key == ' ') { 
             this.club?.rotateZ(.3);
         }
     }
 
-    private handleKeyUp(event: KeyboardEvent) {
-        this.keyDown.delete(event.key);
-        if (event.key == ' ') {
+    private handleKeyUp(e: KeyboardEvent) {
+        this.keyDown.delete(e.key.toLowerCase());
+        if (e.key == ' ') {
             this.club?.rotateZ(-.8);
             setTimeout(() => {
                 this.club?.rotateZ(.5);

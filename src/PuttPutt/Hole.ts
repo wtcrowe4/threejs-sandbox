@@ -7,23 +7,17 @@ export default class Hole extends THREE.Group {
     private readonly objLoader = new OBJLoader();
 
 
-    private hole?: THREE.Group
+    public hole?: THREE.Group
     //private holeMtl?: MTLLoader.MaterialCreator
 
-    private async createHole() {
+    public async createHole() {
         const holeMtl = await this.mtlLoader.loadAsync('assets/PuttPutt/start.mtl');
+        holeMtl.preload();
         const hole = await this.objLoader.setMaterials(holeMtl).loadAsync('assets/PuttPutt/start.obj');
         return hole;
     }
 
-    constructor() {
-        super();
-        this.init();
-    }
-
-    private async init() {
-        this.hole = await this.createHole();
-    }
+   
 }
 
    

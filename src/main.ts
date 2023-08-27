@@ -56,6 +56,7 @@ shooterBtn?.addEventListener('click', () => {
     (shooterBtn as HTMLButtonElement).blur();
     //dont allow the button to be clicked again and create a new scene
     shooterBtn?.setAttribute('disabled', 'true');
+    puttPuttBtn?.setAttribute('disabled', 'true');
 });
 
 //puttputt button
@@ -63,6 +64,7 @@ const puttPuttBtn = document.querySelector('#puttputtbtn');
 puttPuttBtn?.addEventListener('click', () => {
     const puttPutt = new PuttPuttGame();
     puttPutt.start();
+    puttPuttBtn?.setAttribute('disabled', 'true');
     shooterBtn?.setAttribute('disabled', 'true');
     (puttPuttBtn as HTMLButtonElement).blur();
 });
