@@ -20,6 +20,7 @@ export default class PuttPuttScene extends THREE.Scene
 
     private ball?: THREE.Group
     private club?: THREE.Group
+    private aim?: THREE.Line
     private hole?: THREE.Group[] = []
     
 
@@ -41,9 +42,14 @@ export default class PuttPuttScene extends THREE.Scene
         club.rotateX(-.3);
         club.rotateY(Math.PI);
         club.position.set(-.25, .7, .05);
+        const aim = await this.createAim();
+        aim.position.set(.3, -.25, -.175);
+
+
+        this.aim = aim;
         this.ball = ball;
         this.club = club;
-        this.add(this.ball, this.club)
+        this.add(this.ball, this.club, this.aim)
         
         //Build Hole
         const hole = new Hole();
@@ -74,19 +80,16 @@ export default class PuttPuttScene extends THREE.Scene
     private async createClub() {
         const clubMtl = await this.mtlLoader.loadAsync('assets/PuttPutt/club_blue.mtl');
         const clubObj = await this.objLoader.setMaterials(clubMtl).loadAsync('assets/PuttPutt/club_blue.obj');
-        //add a dotted white line to club for aiming from scratch not from assets
-        const lineGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, .5)]);
-        const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
-        const line = new THREE.Line(lineGeometry, lineMaterial);
-        //offset for club position
-        line.rotateX(.3)
-        line.rotateY(-Math.PI/2);
-        line.position.set(.3, -.25, -.175);
-        clubObj.add(line);
-
         return clubObj;
     }
-
+    private async createAim() {
+        
+         const lineGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, .5)]);
+         const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+         const line = new THREE.Line(lineGeometry, lineMaterial);
+         
+         return line;
+    }
 
    
 
@@ -132,6 +135,9 @@ export default class PuttPuttScene extends THREE.Scene
         if (this.keyDown.has('arrowright')) {
             this.camera.position.x += .01;
         }
+        if (this.keyDown.has(' ')) {
+        }
+
         
     }
 
