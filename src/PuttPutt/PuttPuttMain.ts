@@ -30,7 +30,7 @@ export default class PuttPuttGame {
     }
 
     public start(): void {
-        this.scene.Update();
+        //this.scene.Update();
         requestAnimationFrame(() => this.start());
         this.renderer.render(this.scene, this.camera);
     }
