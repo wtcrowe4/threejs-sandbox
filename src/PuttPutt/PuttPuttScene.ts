@@ -43,7 +43,7 @@ export default class PuttPuttScene extends THREE.Scene
         club.rotateY(Math.PI);
         club.position.set(-.25, .7, .05);
         const aim = await this.createAim();
-        aim.position.set(.3, -.25, -.175);
+        aim.position.set(0, .25, -.3);
 
 
         this.aim = aim;
