@@ -78,6 +78,35 @@ export default class Hole extends THREE.Group {
 
 
         //Hole End
+        const holeEndMtl = await this.mtlLoader.loadAsync('assets/PuttPutt/Hole/holeOpen.mtl');
+        holeEndMtl.preload();
+        const holeEnd = await this.objLoader.setMaterials(holeEndMtl).loadAsync('assets/PuttPutt/Hole/holeOpen.obj');
+        holeEnd.position.set(0, -.2, -1.2 - (holeLength+1));
+        this.hole?.push(holeEnd);
+
+        const holeEndRightMtl = await this.mtlLoader.loadAsync('assets/PuttPutt/Hole/hillCorner.mtl');
+        holeEndRightMtl.preload();
+        const holeEndRight = await this.objLoader.setMaterials(holeEndRightMtl).loadAsync('assets/PuttPutt/Hole/hillCorner.obj');
+        holeEndRight.rotateOnAxis(new THREE.Vector3(0, -1, 0), -Math.PI/2);
+        holeEndRight.position.set(1, -.2, -1.2 - (holeLength+1));
+        this.hole?.push(holeEndRight);
+
+        const holeEndLeftMtl = await this.mtlLoader.loadAsync('assets/PuttPutt/Hole/hillCorner.mtl');
+        holeEndLeftMtl.preload();
+        const holeEndLeft = await this.objLoader.setMaterials(holeEndLeftMtl).loadAsync('assets/PuttPutt/Hole/hillCorner.obj');
+        holeEndLeft.rotateOnAxis(new THREE.Vector3(0, -1, 0), Math.PI);
+        holeEndLeft.position.set(-1, -.2, -1.2 - (holeLength+1));
+        this.hole?.push(holeEndLeft);
+
+        const holeEndBackMtl = await this.mtlLoader.loadAsync('assets/PuttPutt/Hole/end.mtl');
+        holeEndBackMtl.preload();
+        const holeEndBack = await this.objLoader.setMaterials(holeEndBackMtl).loadAsync('assets/PuttPutt/Hole/end.obj');
+        holeEndBack.rotateOnAxis(new THREE.Vector3(0, -1, 0), Math.PI);
+        holeEndBack.position.set(0, -.2, -1.2 - (holeLength+2));
+        this.hole?.push(holeEndBack);
+        
+
+
 
 
         
