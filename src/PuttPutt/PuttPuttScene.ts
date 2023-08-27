@@ -74,33 +74,72 @@ export default class PuttPuttScene extends THREE.Scene
     private async createClub() {
         const clubMtl = await this.mtlLoader.loadAsync('assets/PuttPutt/club_blue.mtl');
         const clubObj = await this.objLoader.setMaterials(clubMtl).loadAsync('assets/PuttPutt/club_blue.obj');
+        //add a dotted white line to club for aiming from scratch not from assets
+        const lineGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, .5)]);
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+        const line = new THREE.Line(lineGeometry, lineMaterial);
+        //offset for club position
+        line.rotateX(.3)
+        line.rotateY(-Math.PI/2);
+        line.position.set(.3, -.25, -.175);
+        clubObj.add(line);
+
         return clubObj;
     }
+
 
    
 
     //HANDLE KEYBOARD INPUT
     private handleKeyDown(e: KeyboardEvent) {
-        this.keyDown.add(e.key.toLowerCase());
-        if (e.key == ' ') { 
-            this.club?.rotateZ(.3);
+        if (e.key.toLowerCase() == ' ') {
+            this.club?.rotateZ(.4);
         }
     }
 
+    
     private handleKeyUp(e: KeyboardEvent) {
         this.keyDown.delete(e.key.toLowerCase());
         if (e.key == ' ') {
-            this.club?.rotateZ(-.8);
+            this.club?.rotateZ(-1.2);
             setTimeout(() => {
-                this.club?.rotateZ(.5);
-            }, 400);
+                this.club?.rotateZ(.8);
+            }, 600);
             
         }
     }
 
   
+    
+    //allow for arrows to move around scene, use shift and arrows to aim club
+    //spacebar to hit ball
+    private handleMovement() {
+        if (this.keyDown.has('shift') && this.keyDown.has('arrowleft')) {
+            this.club?.rotateY(.01);
+        }
+        if (this.keyDown.has('shift') && this.keyDown.has('arrowright')) {
+            this.club?.rotateY(-.01);
+        }
+        if (this.keyDown.has('arrowup')) {
+            this.camera.position.z -= .01;
+        }
+        if (this.keyDown.has('arrowdown')) {
+            this.camera.position.z += .01;
+        }
+        if (this.keyDown.has('arrowleft')) {
+            this.camera.position.x -= .01;
+        }
+        if (this.keyDown.has('arrowright')) {
+            this.camera.position.x += .01;
+        }
+        
+    }
 
-    //UPDATE
 
+
+
+    Update() {
+        this.handleMovement();
+    }
     
 }
