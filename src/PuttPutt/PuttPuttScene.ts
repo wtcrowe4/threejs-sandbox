@@ -20,7 +20,7 @@ export default class PuttPuttScene extends THREE.Scene
 
     private ball?: THREE.Group
     private club?: THREE.Group
-    private hole?: THREE.Group
+    private hole?: THREE.Group[] = []
     
 
 
@@ -32,7 +32,8 @@ export default class PuttPuttScene extends THREE.Scene
     }
 
     async Initialize() {
-        //objects
+        
+        //Build Objects
         const ball = await this.createBall();
         ball.position.set(0, 0, 0);
         const club = await this.createClub();
@@ -42,30 +43,23 @@ export default class PuttPuttScene extends THREE.Scene
         club.position.set(-.25, .7, .05);
         this.ball = ball;
         this.club = club;
+        this.add(this.ball, this.club)
         
-        
-        
-        
-        
-        
+        //Build Hole
         const hole = new Hole();
-
         this.hole = await hole.createHole();
-        this.hole.position.set(0, -.2, -.2);
-
+        this.hole?.forEach(hole => this.add(hole));
         
-        
-        this.add(this.ball, this.club, this.hole);
-
-        //lighting
+        //Lighting
         const light = new THREE.DirectionalLight(0xffffff, 1);
         light.position.set(0, 5, 5);
         this.add(light);
 
-        //camera
+        //Camera
         this.camera.position.set(0, 1.5, 1.5);
         this.camera.lookAt(0, 0, -1);
 
+        //Event Listeners
         window.addEventListener('keydown', (e) => this.handleKeyDown(e));
         window.addEventListener('keyup', (e) => this.handleKeyUp(e));
     }
@@ -77,7 +71,6 @@ export default class PuttPuttScene extends THREE.Scene
         const ballObj = await this.objLoader.setMaterials(ballMtl).loadAsync('assets/PuttPutt/ball_blue.obj');
         return ballObj;
     }
-
     private async createClub() {
         const clubMtl = await this.mtlLoader.loadAsync('assets/PuttPutt/club_blue.mtl');
         const clubObj = await this.objLoader.setMaterials(clubMtl).loadAsync('assets/PuttPutt/club_blue.obj');
