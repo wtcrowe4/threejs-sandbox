@@ -43,7 +43,7 @@ export default class PuttPuttScene extends THREE.Scene
         club.rotateY(Math.PI);
         club.position.set(-.25, .7, .05);
         const aim = await this.createAim();
-        aim.position.set(0, .25, -.3);
+        aim.position.set(0, .25, -.35);
 
 
         this.aim = aim;
@@ -92,11 +92,15 @@ export default class PuttPuttScene extends THREE.Scene
    
 
     //HANDLE KEYBOARD INPUT
+    //spacebar to hit ball, only move once even if held down
+    private swinging = false;
     private handleKeyDown(e: KeyboardEvent) {
         this.keyDown.add(e.key.toLowerCase());
-        if (e.key.toLowerCase() == ' ') {
+        if (e.key.toLowerCase() == ' ' && !this.swinging) {
             this.club?.rotateZ(.4);
+            this.swinging = true;
         }
+
     }
 
     
@@ -107,7 +111,7 @@ export default class PuttPuttScene extends THREE.Scene
             setTimeout(() => {
                 this.club?.rotateZ(.8);
             }, 600);
-            
+            this.swinging = false;
         }
     }
 
