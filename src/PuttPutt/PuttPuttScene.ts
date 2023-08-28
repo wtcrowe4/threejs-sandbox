@@ -46,7 +46,7 @@ export default class PuttPuttScene extends THREE.Scene
         club.position.set(-.25, .7, .05);
         
         const aim = await this.createAim();
-        aim.position.set(0, .25, -.35);
+        aim.position.set(0, 0, -.1);
 
         const powerBar = await this.createPowerBar();
         //fix position of powerbar at bottom of scene
@@ -92,7 +92,7 @@ export default class PuttPuttScene extends THREE.Scene
         return clubObj;
     }
     private async createAim() {
-        const lineGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, .5)]);
+        const lineGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -.5)]);
         const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
         const line = new THREE.Line(lineGeometry, lineMaterial);
         return line;
@@ -118,7 +118,7 @@ export default class PuttPuttScene extends THREE.Scene
             this.swinging = true;
             this.powerBar?.scale.set(0, .5, .5);
         }
-        //slow color change of powerbar from left to right as spacebar is held down
+        
         if (e.key.toLowerCase() == ' ' && this.swinging && this.powerBar) {
             if (this.powerBar.scale.x < 10) {this.powerBar.scale.x += .2;}
         }
@@ -144,25 +144,27 @@ export default class PuttPuttScene extends THREE.Scene
     //spacebar to hit ball
     private handleMovement() {
         if (this.keyDown.has('shift') && this.keyDown.has('arrowleft')) {
-            this.club?.rotateY(.01);
+            this.club?.rotateY(.01); //need to tweak this to account for closing and opening clubface changing loft
+            //change aim vector
+            this.aim?.rotateY(.01);
         }
         if (this.keyDown.has('shift') && this.keyDown.has('arrowright')) {
             this.club?.rotateY(-.01);
+            this.aim?.rotateY(-.01);
         }
-        if (this.keyDown.has('arrowup')) {
+        if (this.keyDown.has('arrowup') && !this.keyDown.has('shift')) {
             this.camera.position.z -= .01;
         }
-        if (this.keyDown.has('arrowdown')) {
+        if (this.keyDown.has('arrowdown') && !this.keyDown.has('shift')) {
             this.camera.position.z += .01;
         }
-        if (this.keyDown.has('arrowleft')) {
+        if (this.keyDown.has('arrowleft') && !this.keyDown.has('shift')) {
             this.camera.position.x -= .01;
         }
-        if (this.keyDown.has('arrowright')) {
+        if (this.keyDown.has('arrowright') && !this.keyDown.has('shift')) {
             this.camera.position.x += .01;
         }
-        if (this.keyDown.has(' ')) {
-        }
+        
 
         
     }
