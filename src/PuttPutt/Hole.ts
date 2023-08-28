@@ -102,9 +102,16 @@ export default class Hole extends THREE.Group {
         holeEndBackMtl.preload();
         const holeEndBack = await this.objLoader.setMaterials(holeEndBackMtl).loadAsync('assets/PuttPutt/Hole/end.obj');
         holeEndBack.rotateOnAxis(new THREE.Vector3(0, -1, 0), Math.PI);
-        holeEndBack.position.set(0, -.2, -1.2 - (holeLength+2));
+        holeEndBack.position.set(0, -.2, -1.2 - (holeLength+1.9));
         this.hole?.push(holeEndBack);
-        
+
+        // const holeEndBackCornersMtl = await this.mtlLoader.loadAsync('assets/PuttPutt/Hole/splitWallsToOpen.mtl');
+        // holeEndBackCornersMtl.preload();
+        // const holeEndBackCorners = await this.objLoader.setMaterials(holeEndBackCornersMtl).loadAsync('assets/PuttPutt/Hole/splitWallsToOpen.obj');
+        // holeEndBackCorners.rotateOnAxis(new THREE.Vector3(0, -1, 0), Math.PI);
+        // holeEndBackCorners.position.set(0, -.2, -1.2 - (holeLength+2));
+        // this.hole?.push(holeEndBackCorners);
+
 
 
 

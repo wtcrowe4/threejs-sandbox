@@ -83,18 +83,17 @@ export default class PuttPuttScene extends THREE.Scene
         return clubObj;
     }
     private async createAim() {
-        
-         const lineGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, .5)]);
-         const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
-         const line = new THREE.Line(lineGeometry, lineMaterial);
-         
-         return line;
+        const lineGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, .5)]);
+        const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
+        const line = new THREE.Line(lineGeometry, lineMaterial);
+        return line;
     }
 
    
 
     //HANDLE KEYBOARD INPUT
     private handleKeyDown(e: KeyboardEvent) {
+        this.keyDown.add(e.key.toLowerCase());
         if (e.key.toLowerCase() == ' ') {
             this.club?.rotateZ(.4);
         }
