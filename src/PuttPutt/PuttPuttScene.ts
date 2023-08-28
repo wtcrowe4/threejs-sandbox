@@ -21,6 +21,7 @@ export default class PuttPuttScene extends THREE.Scene
     private ball?: THREE.Group
     private club?: THREE.Group
     private aim?: THREE.Line
+    private powerBar?: THREE.Mesh
     private hole?: THREE.Group[] = []
     
 
@@ -37,19 +38,27 @@ export default class PuttPuttScene extends THREE.Scene
         //Build Objects
         const ball = await this.createBall();
         ball.position.set(0, 0, 0);
+        
         const club = await this.createClub();
         club.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 2);
         club.rotateX(-.3);
         club.rotateY(Math.PI);
         club.position.set(-.25, .7, .05);
+        
         const aim = await this.createAim();
         aim.position.set(0, .25, -.35);
 
+        const powerBar = await this.createPowerBar();
+        //fix position of powerbar at bottom of scene
+        powerBar.position.set(0, .25, .7);
+        powerBar.scale.set(.2, .5, .5);
+    
 
+        this.powerBar = powerBar;
         this.aim = aim;
         this.ball = ball;
         this.club = club;
-        this.add(this.ball, this.club, this.aim)
+        this.add(this.ball, this.club, this.aim, this.powerBar)
         
         //Build Hole
         const hole = new Hole();
@@ -89,6 +98,14 @@ export default class PuttPuttScene extends THREE.Scene
         return line;
     }
 
+    private async createPowerBar() {
+        const powerBarGeometry = new THREE.BoxGeometry(.1, .1, .1);
+        const powerBarMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
+        const powerBar = new THREE.Mesh(powerBarGeometry, powerBarMaterial);
+        return powerBar;
+        
+    }
+
    
 
     //HANDLE KEYBOARD INPUT
@@ -99,8 +116,13 @@ export default class PuttPuttScene extends THREE.Scene
         if (e.key.toLowerCase() == ' ' && !this.swinging) {
             this.club?.rotateZ(.4);
             this.swinging = true;
+            this.powerBar?.scale.set(0, .5, .5);
         }
-
+        //slow color change of powerbar from left to right as spacebar is held down
+        if (e.key.toLowerCase() == ' ' && this.swinging && this.powerBar) {
+            if (this.powerBar.scale.x < 10) {this.powerBar.scale.x += .2;}
+        }
+        
     }
 
     
@@ -110,6 +132,7 @@ export default class PuttPuttScene extends THREE.Scene
             this.club?.rotateZ(-1.2);
             setTimeout(() => {
                 this.club?.rotateZ(.8);
+                this.powerBar?.scale.set(.2, .5, .5);
             }, 600);
             this.swinging = false;
         }
