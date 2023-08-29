@@ -46,7 +46,7 @@ export default class PuttPuttScene extends THREE.Scene
         club.position.set(-.25, .7, .05);
         
         const aim = await this.createAim();
-        aim.position.set(0, 0, -.1);
+        aim.position.set(0, 0, 0);
 
         const powerBar = await this.createPowerBar();
         //fix position of powerbar at bottom of scene
@@ -92,7 +92,7 @@ export default class PuttPuttScene extends THREE.Scene
         return clubObj;
     }
     private async createAim() {
-        const lineGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -.5)]);
+        const lineGeometry = new THREE.BufferGeometry().setFromPoints([new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, -.4)]);
         const lineMaterial = new THREE.LineBasicMaterial({ color: 0xffffff });
         const line = new THREE.Line(lineGeometry, lineMaterial);
         return line;
@@ -142,14 +142,22 @@ export default class PuttPuttScene extends THREE.Scene
     
     //allow for arrows to move around scene, use shift and arrows to aim club
     //spacebar to hit ball
+    
+    
+
+
     private handleMovement() {
         if (this.keyDown.has('shift') && this.keyDown.has('arrowleft')) {
-            this.club?.rotateY(.01); //need to tweak this to account for closing and opening clubface changing loft
-            //change aim vector
+            //rotate club and aim around ball position
+            //this.club?.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), .01);
+            //this.aim?.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), .01);
+           
+            this.club?.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), .01); //.translateOnAxis(new THREE.Vector3(1, 0, 0), .005);
             this.aim?.rotateY(.01);
         }
         if (this.keyDown.has('shift') && this.keyDown.has('arrowright')) {
-            this.club?.rotateY(-.01);
+            //this.club?.rotateY(-.01);
+            this.club?.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), -.01); //.translateOnAxis(new THREE.Vector3(1, 0, 0), -.005);
             this.aim?.rotateY(-.01);
         }
         if (this.keyDown.has('arrowup') && !this.keyDown.has('shift')) {
@@ -164,9 +172,6 @@ export default class PuttPuttScene extends THREE.Scene
         if (this.keyDown.has('arrowright') && !this.keyDown.has('shift')) {
             this.camera.position.x += .01;
         }
-        
-
-        
     }
 
 
