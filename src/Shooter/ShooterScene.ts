@@ -150,11 +150,11 @@ export default class ShooterScene extends THREE.Scene
             {
                 if (this.keyDown.has('a') || this.keyDown.has('arrowleft'))
                 {
-                    this.blaster.rotateY(0.02)
+                    this.blaster.rotateY(0.01)
                 }
                 else if (this.keyDown.has('d') || this.keyDown.has('arrowright'))
                 {
-                    this.blaster.rotateY(-0.02)
+                    this.blaster.rotateY(-0.01)
                 }
             }
     

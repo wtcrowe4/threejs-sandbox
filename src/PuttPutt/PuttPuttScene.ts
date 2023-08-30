@@ -116,7 +116,7 @@ export default class PuttPuttScene extends THREE.Scene
         if (e.key.toLowerCase() == ' ' && !this.swinging) {
             this.club?.rotateZ(.4);
             this.swinging = true;
-            this.powerBar?.scale.set(0, .5, .5);
+            //this.powerBar?.scale.set(0, .5, .5);
         }
         
         if (e.key.toLowerCase() == ' ' && this.swinging && this.powerBar) {
