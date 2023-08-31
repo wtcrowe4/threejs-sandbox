@@ -1,7 +1,7 @@
 import * as THREE from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
-//import GolfBall from './GolfBall.ts';
+import  GolfBall from './GolfBall.ts';
 import Hole from './Hole.ts';
 
 export default class PuttPuttScene extends THREE.Scene 
@@ -116,7 +116,6 @@ export default class PuttPuttScene extends THREE.Scene
         if (e.key.toLowerCase() == ' ' && !this.swinging) {
             this.club?.rotateZ(.4);
             this.swinging = true;
-            //this.powerBar?.scale.set(0, .5, .5);
         }
         
         if (e.key.toLowerCase() == ' ' && this.swinging && this.powerBar) {
@@ -130,6 +129,7 @@ export default class PuttPuttScene extends THREE.Scene
         this.keyDown.delete(e.key.toLowerCase());
         if (e.key == ' ') {
             this.club?.rotateZ(-1.2);
+            this.hitGolfBall();
             setTimeout(() => {
                 this.club?.rotateZ(.8);
                 this.powerBar?.scale.set(.2, .5, .5);
@@ -139,13 +139,25 @@ export default class PuttPuttScene extends THREE.Scene
     }
 
   
+    //Ball Movement
+    private golfBall = new GolfBall(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, -.0001, 0), .0001);
     
-    //allow for arrows to move around scene, use shift and arrows to aim club
-    //spacebar to hit ball
+    private hitGolfBall() {
+        if (this.keyDown.has(' ') && !this.swinging) {
+            if (this.powerBar?.scale) {
+                this.golfBall.hit(new THREE.Vector3(0, 0, -this.powerBar.scale.x / 100));
+            }
+            this.swinging = true;
+        }
+    }
+
     
-    
+        
 
 
+    
+
+  
     private handleMovement() {
         if (this.keyDown.has('shift') && this.keyDown.has('arrowleft')) {
             //rotate club and aim around ball position
