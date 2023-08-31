@@ -11,11 +11,7 @@ export default class PuttPuttScene extends THREE.Scene
     private readonly camera: THREE.PerspectiveCamera;
     private readonly keyDown = new Set<string>();
 
-    // private directionVector = new THREE.Vector3()
-    // private ballVelocity = new THREE.Vector3()
-    // private ballPosition = new THREE.Vector3()
-    // private ballAcceleration = new THREE.Vector3()
-    // private ballMass = 0.04593
+    
     
 
     private ball?: THREE.Group
@@ -130,6 +126,7 @@ export default class PuttPuttScene extends THREE.Scene
         if (e.key == ' ') {
             this.club?.rotateZ(-1.2);
             this.hitGolfBall();
+            this.updateBall();
             setTimeout(() => {
                 this.club?.rotateZ(.8);
                 this.powerBar?.scale.set(.2, .5, .5);
@@ -140,16 +137,54 @@ export default class PuttPuttScene extends THREE.Scene
 
   
     //Ball Movement
-    private golfBall = new GolfBall(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, -.0001, 0), .0001);
+    // private directionVector = new THREE.Vector3()
+     private ballVelocity = new THREE.Vector3()
+    // private ballPosition = new THREE.Vector3()
+    // private ballAcceleration = new THREE.Vector3()
+    // private ballMass = 0.04593
+    
+    private golfBall = new GolfBall(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, -.0001, 0), .0001); 
     
     private hitGolfBall() {
-        if (this.keyDown.has(' ') && !this.swinging) {
-            if (this.powerBar?.scale) {
-                this.golfBall.hit(new THREE.Vector3(0, 0, -this.powerBar.scale.x / 100));
-            }
-            this.swinging = true;
+        if (!this.ball || !this.aim || !this.powerBar) {
+            return;
         }
+
+        // Get the direction vector from the aim's rotation
+        const direction = new THREE.Vector3(0, 0, 1).applyQuaternion(this.aim.quaternion);
+
+        // Normalize the direction vector to get a unit vector
+        direction.normalize();
+
+        // Multiply the direction vector by the power bar's scale to get the velocity vector
+        const velocity = direction.multiplyScalar(this.powerBar.scale.x);
+
+        // Set the ball's velocity to the velocity vector
+       this.ballVelocity = velocity;
     }
+
+    private updateBall() {
+        if (!this.ball) {
+            return;
+        }
+
+        // Get the ball's velocity
+        const velocity = this.ballVelocity;
+
+        // Add the velocity to the ball's position
+        this.ball.position.add(velocity);
+
+        // Apply gravity to the ball's velocity
+        velocity.add(this.golfBall.gravity);
+
+        // Apply friction to the ball's velocity
+        velocity.multiplyScalar(1 - this.golfBall.friction);
+
+        // Apply the ball's velocity to the ball's position
+        this.ball.position.add(velocity);
+    }
+
+
 
     
         
@@ -191,6 +226,7 @@ export default class PuttPuttScene extends THREE.Scene
 
     Update() {
         this.handleMovement();
+        //this.updateBall();
     }
     
 }
