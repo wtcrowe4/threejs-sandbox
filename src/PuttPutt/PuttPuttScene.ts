@@ -151,13 +151,13 @@ export default class PuttPuttScene extends THREE.Scene
         }
 
         // Get the direction vector from the aim's rotation
-        const direction = new THREE.Vector3(0, 0, 1).applyQuaternion(this.aim.quaternion);
+        const direction = new THREE.Vector3(0, 0, -1).applyQuaternion(this.aim.quaternion);
 
         // Normalize the direction vector to get a unit vector
         direction.normalize();
 
         // Multiply the direction vector by the power bar's scale to get the velocity vector
-        const velocity = direction.multiplyScalar(this.powerBar.scale.x);
+        const velocity = direction.multiplyScalar(this.powerBar.scale.x/2);
 
         // Set the ball's velocity to the velocity vector
        this.ballVelocity = velocity;
