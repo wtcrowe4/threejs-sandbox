@@ -1,4 +1,6 @@
 import * as THREE from 'three';
+//import TWEEN from '@tweenjs/tween.js';
+//import * as CANNON from 'cannon-es'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import  GolfBall from './GolfBall.ts';
@@ -10,20 +12,14 @@ export default class PuttPuttScene extends THREE.Scene
     private readonly objLoader = new OBJLoader();
     private readonly camera: THREE.PerspectiveCamera;
     private readonly keyDown = new Set<string>();
-
     
-    
-
-    private ball?: THREE.Group
+    private ball?: GolfBall
     private club?: THREE.Group
     private aim?: THREE.Line
     private powerBar?: THREE.Mesh
     private hole?: THREE.Group[] = []
     
 
-
-
- 
     constructor(camera: THREE.PerspectiveCamera) {
         super();
         this.camera = camera;
@@ -31,31 +27,33 @@ export default class PuttPuttScene extends THREE.Scene
 
     async Initialize() {
         
-        //Build Objects
-        const ball = await this.createBall();
-        ball.position.set(0, 0, 0);
-        
+        //Objects
         const club = await this.createClub();
         club.rotateOnAxis(new THREE.Vector3(0, 1, 0), Math.PI / 2);
         club.rotateX(-.3);
         club.rotateY(Math.PI);
         club.position.set(-.25, .7, .05);
+        this.club = club;
         
         const aim = await this.createAim();
         aim.position.set(0, 0, 0);
+        this.aim = aim;
 
         const powerBar = await this.createPowerBar();
         //fix position of powerbar at bottom of scene
         powerBar.position.set(0, .25, .7);
         powerBar.scale.set(.2, .5, .5);
-    
-
         this.powerBar = powerBar;
-        this.aim = aim;
-        this.ball = ball;
-        this.club = club;
-        this.add(this.ball, this.club, this.aim, this.powerBar)
+    
+        // if (!this.aim) {
+        //     throw new Error("Aim is not defined");
+        // }
         
+        //Golf Ball
+        const ball = new GolfBall(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, -.0001, 0), .0001, this.aim, this.powerBar)
+        //ball.position.set(0, 0, 0);
+        this.ball = ball;
+
         //Build Hole
         const hole = new Hole();
         this.hole = await hole.createHole();
@@ -70,6 +68,9 @@ export default class PuttPuttScene extends THREE.Scene
         this.camera.position.set(0, 1.5, 1.5);
         this.camera.lookAt(0, 0, -1);
 
+        //Add Objects to Scene
+        this.add(this.ball, this.club, this.aim, this.powerBar)
+
         //Event Listeners
         window.addEventListener('keydown', (e) => this.handleKeyDown(e));
         window.addEventListener('keyup', (e) => this.handleKeyUp(e));
@@ -77,11 +78,6 @@ export default class PuttPuttScene extends THREE.Scene
 
 
     //CREATE OBJECTS
-    private async createBall() {
-        const ballMtl = await this.mtlLoader.loadAsync('assets/PuttPutt/ball_blue.mtl');
-        const ballObj = await this.objLoader.setMaterials(ballMtl).loadAsync('assets/PuttPutt/ball_blue.obj');
-        return ballObj;
-    }
     private async createClub() {
         const clubMtl = await this.mtlLoader.loadAsync('assets/PuttPutt/club_blue.mtl');
         const clubObj = await this.objLoader.setMaterials(clubMtl).loadAsync('assets/PuttPutt/club_blue.obj');
@@ -99,10 +95,8 @@ export default class PuttPuttScene extends THREE.Scene
         const powerBarMaterial = new THREE.MeshBasicMaterial({ color: 0xffffff });
         const powerBar = new THREE.Mesh(powerBarGeometry, powerBarMaterial);
         return powerBar;
-        
+    
     }
-
-   
 
     //HANDLE KEYBOARD INPUT
     //spacebar to hit ball, only move once even if held down
@@ -120,13 +114,12 @@ export default class PuttPuttScene extends THREE.Scene
         
     }
 
-    
     private handleKeyUp(e: KeyboardEvent) {
         this.keyDown.delete(e.key.toLowerCase());
         if (e.key == ' ') {
             this.club?.rotateZ(-1.2);
-            this.hitGolfBall();
-            this.updateBall();
+            this.ball?.hitGolfBall();
+            this.ball?.updateGolfBall();
             setTimeout(() => {
                 this.club?.rotateZ(.8);
                 this.powerBar?.scale.set(.2, .5, .5);
@@ -134,63 +127,6 @@ export default class PuttPuttScene extends THREE.Scene
             this.swinging = false;
         }
     }
-
-  
-    //Ball Movement
-    // private directionVector = new THREE.Vector3()
-     private ballVelocity = new THREE.Vector3()
-    // private ballPosition = new THREE.Vector3()
-    // private ballAcceleration = new THREE.Vector3()
-    // private ballMass = 0.04593
-    
-    private golfBall = new GolfBall(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, -.0001, 0), .0001); 
-    
-    private hitGolfBall() {
-        if (!this.ball || !this.aim || !this.powerBar) {
-            return;
-        }
-
-        // Get the direction vector from the aim's rotation
-        const direction = new THREE.Vector3(0, 0, -1).applyQuaternion(this.aim.quaternion);
-
-        // Normalize the direction vector to get a unit vector
-        direction.normalize();
-
-        // Multiply the direction vector by the power bar's scale to get the velocity vector
-        const velocity = direction.multiplyScalar(this.powerBar.scale.x/2);
-
-        // Set the ball's velocity to the velocity vector
-       this.ballVelocity = velocity;
-    }
-
-    private updateBall() {
-        if (!this.ball) {
-            return;
-        }
-
-        // Get the ball's velocity
-        const velocity = this.ballVelocity;
-
-        // Add the velocity to the ball's position
-        this.ball.position.add(velocity);
-
-        // Apply gravity to the ball's velocity
-        velocity.add(this.golfBall.gravity);
-
-        // Apply friction to the ball's velocity
-        velocity.multiplyScalar(1 - this.golfBall.friction);
-
-        // Apply the ball's velocity to the ball's position
-        this.ball.position.add(velocity);
-    }
-
-
-
-    
-        
-
-
-    
 
   
     private handleMovement() {
@@ -203,7 +139,6 @@ export default class PuttPuttScene extends THREE.Scene
             this.aim?.rotateY(.01);
         }
         if (this.keyDown.has('shift') && this.keyDown.has('arrowright')) {
-            //this.club?.rotateY(-.01);
             this.club?.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), -.01); //.translateOnAxis(new THREE.Vector3(1, 0, 0), -.005);
             this.aim?.rotateY(-.01);
         }
@@ -220,8 +155,6 @@ export default class PuttPuttScene extends THREE.Scene
             this.camera.position.x += .01;
         }
     }
-
-
 
 
     Update() {
