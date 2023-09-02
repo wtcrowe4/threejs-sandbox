@@ -109,7 +109,7 @@ export default class PuttPuttScene extends THREE.Scene
         }
         
         if (e.key.toLowerCase() == ' ' && this.swinging && this.powerBar) {
-            if (this.powerBar.scale.x < 10) {this.powerBar.scale.x += .2;}
+            if (this.powerBar.scale.x < 15) {this.powerBar.scale.x += .2;}
         }
         
     }

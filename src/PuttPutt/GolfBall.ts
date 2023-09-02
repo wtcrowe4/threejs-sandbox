@@ -1,6 +1,6 @@
 import * as THREE from 'three';
 import TWEEN from '@tweenjs/tween.js';
-import * as CANNON from 'cannon-es'
+//import * as CANNON from 'cannon-es'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import { Vector3 } from 'three';
@@ -50,7 +50,7 @@ export default class GolfBall extends THREE.Group {
         }
         const direction = this.aim?.quaternion ? new THREE.Vector3(0, 0, -1).applyQuaternion(this.aim.quaternion) : new THREE.Vector3();
         direction.normalize();
-        const velocity = this.powerBar?.scale ? direction.multiplyScalar(this.powerBar.scale.x/1.5) : new THREE.Vector3();
+        const velocity = this.powerBar?.scale ? direction.multiplyScalar(this.powerBar.scale.x) : new THREE.Vector3();
         this.velocity = velocity;
     }
 
