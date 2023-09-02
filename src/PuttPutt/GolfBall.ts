@@ -78,20 +78,22 @@ export default class GolfBall extends THREE.Group {
         this.newPosition = new Vector3(this.ball.position.x + velocity.x, this.ball.position.y + velocity.y, this.ball.position.z + velocity.z);
         this.ball.position.add(velocity);
         console.log(this.velocity)
+
+        this.updatePhysics();
         
         
 
         //Ball Movement Tween
         //Use tween to move ball
-        const ballTween = new TWEEN.Tween(this.ball)
-            .to({ x: this.ball.position.x + velocity.x, y: this.ball.position.y + velocity.y, z: this.ball.position.z + velocity.z }, 5000)
-            .easing(TWEEN.Easing.Quadratic.Out)
-            .start();
-        ballTween.onComplete(() => {
-            this.ball?.position.set(this.ball.position.x + velocity.x, this.ball.position.y + velocity.y, this.ball.position.z + velocity.z);
-        });
+        // const ballTween = new TWEEN.Tween(this.ball)
+        //     .to({ x: this.ball.position.x + velocity.x, y: this.ball.position.y + velocity.y, z: this.ball.position.z + velocity.z }, 5000)
+        //     .easing(TWEEN.Easing.Quadratic.Out)
+        //     .start();
+        // ballTween.onComplete(() => {
+        //     this.ball?.position.set(this.ball.position.x + velocity.x, this.ball.position.y + velocity.y, this.ball.position.z + velocity.z);
+        // });
 
-         TWEEN.update();
+        //  TWEEN.update();
 
         //Ball Movement Cannon
         // const ballBody = new CANNON.Body({
@@ -116,8 +118,8 @@ export default class GolfBall extends THREE.Group {
     //Reset Camera
     public newPosition : Vector3 = new Vector3(0,0,0);
     public resetCamera(camera: THREE.PerspectiveCamera, club: THREE.Group, aim: THREE.Line, powerBar: THREE.Mesh) {
-        camera.position.set(this.newPosition.x, this.newPosition.y + 2, this.newPosition.z + 2);
-        camera.lookAt(this.newPosition.x, this.newPosition.y, this.newPosition.z);
+        camera.position.set(this.newPosition.x, this.newPosition.y + 1.5, this.newPosition.z + 1.5);
+        camera.lookAt(this.newPosition.x, this.newPosition.y, this.newPosition.z-1);
         club.position.set(this.newPosition.x-.25, this.newPosition.y+.7, this.newPosition.z+.05);
         aim.position.set(this.newPosition.x, this.newPosition.y, this.newPosition.z-.1);
         powerBar.position.set(this.newPosition.x, this.newPosition.y+.25, this.newPosition.z+.7);
@@ -131,25 +133,21 @@ export default class GolfBall extends THREE.Group {
 
     public timeStep = 1/60;
 
-   
+    public updatePhysics() {
+        const ballBody = new CANNON.Body({
+            mass: 5,
+            position: new CANNON.Vec3(this.position.x, this.position.y, this.position.z),
+            shape: new CANNON.Sphere(.5),
+            velocity: new CANNON.Vec3(this.velocity.x, this.velocity.y, this.velocity.z)
+        });
 
+        ballBody.applyForce(new CANNON.Vec3(this.force.x, this.force.y, this.force.z), new CANNON.Vec3(this.position.x, this.position.y, this.position.z));
+        ballBody.applyForce(new CANNON.Vec3(this.gravity.x, this.gravity.y, this.gravity.z), new CANNON.Vec3(this.position.x, this.position.y, this.position.z));
+        this.world.step(this.timeStep);
+        this.world.addBody(ballBody);
+        
+    }
 
-
-    // hit(force: Vector3) {
-    //     this.velocity.add(force);
-    // }
-
-    // update() {
-    //     this.velocity.add(this.gravity);
-    //     this.velocity.multiplyScalar(1 - this.friction);
-    //     this.position.add(this.velocity);
-    // }
-
-    // reset(position: Vector3) {
-    //     this.position = position;
-    //     this.velocity = new Vector3(0, 0, 0);
-    //     this.acceleration = new Vector3(0, 0, 0);
-    // }
 }
 
 
