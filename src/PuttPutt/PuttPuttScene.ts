@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-//import TWEEN from '@tweenjs/tween.js';
-//import * as CANNON from 'cannon-es'
+import TWEEN from '@tweenjs/tween.js';
+import * as CANNON from 'cannon-es'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import  GolfBall from './GolfBall.ts';
@@ -116,16 +116,21 @@ export default class PuttPuttScene extends THREE.Scene
 
     private handleKeyUp(e: KeyboardEvent) {
         this.keyDown.delete(e.key.toLowerCase());
-        if (e.key == ' ') {
-            this.club?.rotateZ(-1.2);
-            this.ball?.hitGolfBall();
-            this.ball?.updateGolfBall();
-            setTimeout(() => {
-                this.club?.rotateZ(.8);
-                this.powerBar?.scale.set(.2, .5, .5);
-            }, 600);
-            this.swinging = false;
-        }
+            if (e.key == ' ') {
+                this.club?.rotateZ(-1.2);
+                this.ball?.hitGolfBall();
+                this.ball?.updateGolfBall();
+                setTimeout(() => {
+                    if (this.club && this.aim && this.powerBar && this.ball) {
+                        this.club.rotateZ(.8);
+                        this.powerBar.scale.set(.2, .5, .5);
+                        this.ball.resetCamera(this.camera, this.club, this.aim, this.powerBar);
+                    }
+                }, 2000);
+                this.swinging = false;
+                
+            }
+        
     }
 
   
@@ -156,10 +161,20 @@ export default class PuttPuttScene extends THREE.Scene
         }
     }
 
+    //Cannon World
+    // private timeStep = 1/60;
+    // private world = new CANNON.World({
+    //     gravity: new CANNON.Vec3(0, -9.82, 0)
+
+    // });
+    
+
+
 
     Update() {
         this.handleMovement();
-        //this.updateBall();
+        
+        
     }
     
 }
