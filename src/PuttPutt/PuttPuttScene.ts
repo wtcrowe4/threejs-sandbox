@@ -50,7 +50,7 @@ export default class PuttPuttScene extends THREE.Scene
         // }
         
         //Golf Ball
-        const ball = new GolfBall(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, -.0001, 0), .0001, this.aim, this.powerBar)
+        const ball = new GolfBall(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), .0001, this.aim, this.powerBar)
         //ball.position.set(0, 0, 0);
         this.ball = ball;
 
@@ -173,6 +173,9 @@ export default class PuttPuttScene extends THREE.Scene
 
     Update() {
         this.handleMovement();
+        //this.ball?.updateGolfBall();
+        
+        //TWEEN.update();
         
         
     }

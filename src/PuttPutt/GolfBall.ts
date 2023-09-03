@@ -42,6 +42,7 @@ export default class GolfBall extends THREE.Group {
         this.ball = await this.createBall();
         this.ball.position.set(this.position.x, this.position.y, this.position.z);
         this.add(this.ball);
+        this.createPhysics();
     }
 
     public async createBall() {
@@ -59,6 +60,7 @@ export default class GolfBall extends THREE.Group {
         direction.normalize();
         const power = this.powerBar?.scale ? direction.multiplyScalar(this.powerBar.scale.x) : new THREE.Vector3();
         this.force = power;
+        // this.ballBody.applyForce(new CANNON.Vec3(this.force.x, this.force.y, this.force.z), new CANNON.Vec3(this.ball.position.x, this.ball.position.y, this.ball.position.z));
     }
 
     
@@ -76,7 +78,7 @@ export default class GolfBall extends THREE.Group {
         
         //just moving ball to new location, working on physics
         this.newPosition = new Vector3(this.ball.position.x + velocity.x, this.ball.position.y + velocity.y, this.ball.position.z + velocity.z);
-        this.ball.position.add(velocity);
+        //this.ball.position.set(this.ball.position.x + velocity.x, this.ball.position.y + 0, this.ball.position.z + velocity.z);
         console.log(this.velocity)
 
         this.updatePhysics();
@@ -86,11 +88,12 @@ export default class GolfBall extends THREE.Group {
         //Ball Movement Tween
         //Use tween to move ball
         // const ballTween = new TWEEN.Tween(this.ball)
-        //     .to({ x: this.ball.position.x + velocity.x, y: this.ball.position.y + velocity.y, z: this.ball.position.z + velocity.z }, 5000)
+        //     .to({ x: this.ball.position.x + velocity.x, y: this.ball.position.y + velocity.y, z: this.ball.position.z + velocity.z }, 500)
         //     .easing(TWEEN.Easing.Quadratic.Out)
         //     .start();
-        // ballTween.onComplete(() => {
-        //     this.ball?.position.set(this.ball.position.x + velocity.x, this.ball.position.y + velocity.y, this.ball.position.z + velocity.z);
+        
+        //     ballTween.onComplete(() => {
+        //         this.ball?.position.set(this.ball.position.x + velocity.x, this.ball.position.y + velocity.y, this.ball.position.z + velocity.z);
         // });
 
         //  TWEEN.update();
@@ -128,23 +131,42 @@ export default class GolfBall extends THREE.Group {
 
 
     public world = new CANNON.World({
-        gravity: new CANNON.Vec3(0, -9.82, 0)
+        gravity: new CANNON.Vec3(0, 0, 0)
     });
 
     public timeStep = 1/60;
+    public ballBody: CANNON.Body = new CANNON.Body({
+        mass: 5,
+        position: new CANNON.Vec3(this.ball?.position.x, this.ball?.position.y, this.ball?.position.z),
+        shape: new CANNON.Sphere(.5),
+        velocity: new CANNON.Vec3(0,0,0)
+    });
+
+    public createPhysics() {
+          
+    
+        this.world.step(this.timeStep);
+        this.world.addBody(this.ballBody);
+    
+   //add floor and walls to world
+        const floorBody = new CANNON.Body({ 
+            mass: 10,
+            shape: new CANNON.Plane(),
+            position: new CANNON.Vec3(0, -.2, 0),
+
+        });
+        this.world.addBody(floorBody);
+    
+    }
 
     public updatePhysics() {
-        const ballBody = new CANNON.Body({
-            mass: 5,
-            position: new CANNON.Vec3(this.position.x, this.position.y, this.position.z),
-            shape: new CANNON.Sphere(.5),
-            velocity: new CANNON.Vec3(this.velocity.x, this.velocity.y, this.velocity.z)
-        });
-
-        ballBody.applyForce(new CANNON.Vec3(this.force.x, this.force.y, this.force.z), new CANNON.Vec3(this.position.x, this.position.y, this.position.z));
-        ballBody.applyForce(new CANNON.Vec3(this.gravity.x, this.gravity.y, this.gravity.z), new CANNON.Vec3(this.position.x, this.position.y, this.position.z));
-        this.world.step(this.timeStep);
-        this.world.addBody(ballBody);
+        //roll the ball to new position
+        this.ball?.position.set(this.newPosition.x, this.newPosition.y, this.newPosition.z);
+        //update ballBody position
+        this.ballBody.position.set(this.newPosition.x, this.newPosition.y, this.newPosition.z);
+        //apply force to ballBody
+        this.ballBody.applyForce(new CANNON.Vec3(this.force.x, this.force.y, this.force.z), new CANNON.Vec3(this.position.x, this.position.y, this.position.z));
+       
         
     }
 
