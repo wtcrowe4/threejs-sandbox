@@ -136,27 +136,66 @@ export default class GolfBall extends THREE.Group {
 
     public timeStep = 1/60;
     public ballBody: CANNON.Body = new CANNON.Body({
-        mass: 5,
+        mass: 1,
         position: new CANNON.Vec3(this.ball?.position.x, this.ball?.position.y, this.ball?.position.z),
         shape: new CANNON.Sphere(.5),
-        velocity: new CANNON.Vec3(0,0,0)
+        
     });
 
     public createPhysics() {
           
-    
-        this.world.step(this.timeStep);
-        this.world.addBody(this.ballBody);
-    
-   //add floor and walls to world
         const floorBody = new CANNON.Body({ 
-            mass: 10,
+            mass: 0,
             shape: new CANNON.Plane(),
             position: new CANNON.Vec3(0, -.2, 0),
 
         });
+        
+        const wallBody1 = new CANNON.Body({
+            mass: 0,
+            shape: new CANNON.Plane(),
+            position: new CANNON.Vec3(0, 0, -5),
+            quaternion: new CANNON.Quaternion().setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI / 2)
+        });
+        
+
+        const wallBody2 = new CANNON.Body({
+            mass: 0,
+            shape: new CANNON.Plane(),
+            position: new CANNON.Vec3(0, 0, 5),
+            quaternion: new CANNON.Quaternion().setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI / 2)
+        });
+
+        const wallBody3 = new CANNON.Body({
+            mass: 0,
+            shape: new CANNON.Plane(),
+            position: new CANNON.Vec3(-5, 0, 0),
+            quaternion: new CANNON.Quaternion().setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI / 2)
+        });
+
+        const wallBody4 = new CANNON.Body({
+            mass: 0,
+            shape: new CANNON.Plane(),
+            position: new CANNON.Vec3(5, 0, 0),
+            quaternion: new CANNON.Quaternion().setFromAxisAngle(new CANNON.Vec3(0, 1, 0), Math.PI / 2)
+        });
+
+        const holeBody = new CANNON.Body({
+            mass: 0,
+            shape: new CANNON.Cylinder(.5, .5, .1, 32),
+            position: new CANNON.Vec3(0, -.2, -7.2), //hole position can be different if hole length is changed in Hole.ts
+            quaternion: new CANNON.Quaternion().setFromAxisAngle(new CANNON.Vec3(1, 0, 0), Math.PI / 2)
+        });
+
+        this.world.step(this.timeStep);
+        this.world.addBody(this.ballBody);
         this.world.addBody(floorBody);
-    
+        this.world.addBody(wallBody1);
+        this.world.addBody(wallBody2);
+        this.world.addBody(wallBody3);
+        this.world.addBody(wallBody4);
+        this.world.addBody(holeBody);
+
     }
 
     public updatePhysics() {
