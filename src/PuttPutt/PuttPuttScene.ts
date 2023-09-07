@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import TWEEN from '@tweenjs/tween.js';
-import * as CANNON from 'cannon-es'
+//import TWEEN from '@tweenjs/tween.js';
+//import * as CANNON from 'cannon-es'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import  GolfBall from './GolfBall.ts';
@@ -40,18 +40,12 @@ export default class PuttPuttScene extends THREE.Scene
         this.aim = aim;
 
         const powerBar = await this.createPowerBar();
-        //fix position of powerbar at bottom of scene
         powerBar.position.set(0, .25, .7);
         powerBar.scale.set(.2, .5, .5);
         this.powerBar = powerBar;
     
-        // if (!this.aim) {
-        //     throw new Error("Aim is not defined");
-        // }
-        
         //Golf Ball
         const ball = new GolfBall(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), .0001, this.aim, this.powerBar)
-        //ball.position.set(0, 0, 0);
         this.ball = ball;
 
         //Build Hole
@@ -136,10 +130,6 @@ export default class PuttPuttScene extends THREE.Scene
   
     private handleMovement() {
         if (this.keyDown.has('shift') && this.keyDown.has('arrowleft')) {
-            //rotate club and aim around ball position
-            //this.club?.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), .01);
-            //this.aim?.setRotationFromAxisAngle(new THREE.Vector3(0, 1, 0), .01);
-           
             this.club?.rotateOnWorldAxis(new THREE.Vector3(0, 1, 0), .01); //.translateOnAxis(new THREE.Vector3(1, 0, 0), .005);
             this.aim?.rotateY(.01);
         }
@@ -161,23 +151,12 @@ export default class PuttPuttScene extends THREE.Scene
         }
     }
 
-    //Cannon World
-    // private timeStep = 1/60;
-    // private world = new CANNON.World({
-    //     gravity: new CANNON.Vec3(0, -9.82, 0)
 
-    // });
     
-
-
-
+    
     Update() {
         this.handleMovement();
-        //this.ball?.updateGolfBall();
-        
-        //TWEEN.update();
-        
-        
+        this.ball?.updateGolfBall();
     }
     
 }

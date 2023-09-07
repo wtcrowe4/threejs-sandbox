@@ -1,18 +1,13 @@
 import * as THREE from 'three';
-import TWEEN from '@tweenjs/tween.js';
+//import TWEEN from '@tweenjs/tween.js';
 import * as CANNON from 'cannon-es'
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import { Vector3 } from 'three';
-import PuttPuttScene from './PuttPuttScene';
-
 
 export default class GolfBall extends THREE.Group {
     private static readonly mtlLoader = new MTLLoader();
     private static readonly objLoader = new OBJLoader();
-
-    
-
 
     position: Vector3;
     force: Vector3 = new Vector3(0, 0, 0);
@@ -76,45 +71,13 @@ export default class GolfBall extends THREE.Group {
         velocity.add(this.gravity);
         velocity.multiplyScalar(1 - this.friction);
         
-        //just moving ball to new location, working on physics
+        
         this.newPosition = new Vector3(this.ball.position.x + velocity.x, this.ball.position.y + velocity.y, this.ball.position.z + velocity.z);
-        //this.ball.position.set(this.ball.position.x + velocity.x, this.ball.position.y + 0, this.ball.position.z + velocity.z);
+        
         console.log(this.velocity)
 
         this.updatePhysics();
         
-        
-
-        //Ball Movement Tween
-        //Use tween to move ball
-        // const ballTween = new TWEEN.Tween(this.ball)
-        //     .to({ x: this.ball.position.x + velocity.x, y: this.ball.position.y + velocity.y, z: this.ball.position.z + velocity.z }, 500)
-        //     .easing(TWEEN.Easing.Quadratic.Out)
-        //     .start();
-        
-        //     ballTween.onComplete(() => {
-        //         this.ball?.position.set(this.ball.position.x + velocity.x, this.ball.position.y + velocity.y, this.ball.position.z + velocity.z);
-        // });
-
-        //  TWEEN.update();
-
-        //Ball Movement Cannon
-        // const ballBody = new CANNON.Body({
-        //     mass: 5,
-        //     position: new CANNON.Vec3(this.ball.position.x, this.ball.position.y, this.ball.position.z),
-        //     shape: new CANNON.Sphere(.5),
-        //     velocity: new CANNON.Vec3(velocity.x, velocity.y, velocity.z)
-        // });
-
-        // ballBody.applyForce(new CANNON.Vec3(this.force.x, this.force.y, this.force.z), new CANNON.Vec3(this.ball.position.x, this.ball.position.y, this.ball.position.z));
-        // ballBody.applyForce(new CANNON.Vec3(this.gravity.x, this.gravity.y, this.gravity.z), new CANNON.Vec3(this.ball.position.x, this.ball.position.y, this.ball.position.z));
-     
-    
-        //Collision Detection
-        
-        //Reset Camera position to where ball finished 
-        
-
     }
 
 
