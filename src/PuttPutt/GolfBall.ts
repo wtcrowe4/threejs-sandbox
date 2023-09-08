@@ -94,12 +94,12 @@ export default class GolfBall extends THREE.Group {
 
 
     public world = new CANNON.World({
-        gravity: new CANNON.Vec3(0, 0, 0)
+        gravity: new CANNON.Vec3(0, -9.81, 0)
     });
 
     public timeStep = 1/60;
     public ballBody: CANNON.Body = new CANNON.Body({
-        mass: 1,
+        mass: 5,
         position: new CANNON.Vec3(this.ball?.position.x, this.ball?.position.y, this.ball?.position.z),
         shape: new CANNON.Sphere(.5),
         
@@ -167,10 +167,18 @@ export default class GolfBall extends THREE.Group {
         //update ballBody position
         this.ballBody.position.set(this.newPosition.x, this.newPosition.y, this.newPosition.z);
         //apply force to ballBody
-        this.ballBody.applyForce(new CANNON.Vec3(this.force.x, this.force.y, this.force.z), new CANNON.Vec3(this.position.x, this.position.y, this.position.z));
-       
-        
+        this.ballBody.applyForce(new CANNON.Vec3(this.gravity.x, this.gravity.y, this.gravity.z));
+        this.ballBody.applyForce(
+            new CANNON.Vec3(this.force.x, this.force.y, this.force.z), 
+            new CANNON.Vec3(this.position.x, this.position.y, this.position.z)
+        );
+        //add friction so ball stops rolling
+        this.ballBody.velocity.x *= 1 - this.friction;
+        this.ballBody.velocity.z *= 1 - this.friction;
+        //update ball position
+
     }
+
 
 }
 

@@ -45,7 +45,7 @@ export default class PuttPuttScene extends THREE.Scene
         this.powerBar = powerBar;
     
         //Golf Ball
-        const ball = new GolfBall(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), .0001, this.aim, this.powerBar)
+        const ball = new GolfBall(new THREE.Vector3(0, 0, 0), new THREE.Vector3(0, 0, 0), .5, this.aim, this.powerBar)
         this.ball = ball;
 
         //Build Hole
