@@ -22,7 +22,7 @@ export default class PuttPuttGame {
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
 
-        this.scene = new ConnectFourScene(this.camera);
+        this.scene = new ConnectFourScene();
         this.scene.Initialize();
 
         this.renderer.render(this.scene, this.camera);
@@ -34,6 +34,8 @@ export default class PuttPuttGame {
         requestAnimationFrame(() => this.start());
         this.renderer.render(this.scene, this.camera);
     }
+
+
 
     
 }
