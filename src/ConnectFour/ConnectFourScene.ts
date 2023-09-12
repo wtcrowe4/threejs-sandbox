@@ -1,18 +1,27 @@
 import * as THREE from 'three';
 import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
 import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
+import ConnectFourBoard from './ConnectFourBoard';
 
 export default class ConnectFourScene extends THREE.Scene {
+
+    private board?: THREE.Group;
 
     public Initialize() {
         this.createBoard();
         this.createPieces();
         this.createLighting();
         this.createCamera();
+        this.board = new ConnectFourBoard();
     }
 
     public Update() {
-    
+        //update scene
+        this.TakeTurn();
+        //update board
+
+
+
     }
 
     private createBoard() {
@@ -45,6 +54,10 @@ export default class ConnectFourScene extends THREE.Scene {
         camera.lookAt(0, 0, -1);
     }
 
-    
+    public TakeTurn() {
+        //player takes turn
+    }
+
+
 
 }
