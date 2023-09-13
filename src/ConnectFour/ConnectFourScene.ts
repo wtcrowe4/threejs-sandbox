@@ -19,6 +19,10 @@ export default class ConnectFourScene extends THREE.Scene {
         //update scene
         this.TakeTurn();
         //update board
+        this.DropPiece();
+        //check for win
+        this.CheckWin();
+        
 
 
 
@@ -56,6 +60,19 @@ export default class ConnectFourScene extends THREE.Scene {
 
     public TakeTurn() {
         //player takes turn
+        
+    }
+
+    public DropPiece() {
+        //piece drops to lowest available spot
+    }
+
+    public CheckWin() {
+        //check for win
+    }
+
+    public Reset() {
+        //reset board
     }
 
 
