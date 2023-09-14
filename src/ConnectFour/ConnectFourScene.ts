@@ -60,7 +60,6 @@ export default class ConnectFourScene extends THREE.Scene {
 
     public TakeTurn() {
         //player takes turn
-        
     }
 
     public DropPiece() {

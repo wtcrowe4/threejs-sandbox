@@ -167,7 +167,7 @@ export default class GolfBall extends THREE.Group {
         //update ballBody position
         this.ballBody.position.set(this.newPosition.x, this.newPosition.y, this.newPosition.z);
         //divide force to slow down ball
-        this.force.divideScalar(2);
+        this.force.divideScalar(3);
 
         //apply force to ballBody
         this.ballBody.applyForce(new CANNON.Vec3(this.gravity.x, this.gravity.y, this.gravity.z));
