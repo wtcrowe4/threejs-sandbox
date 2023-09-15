@@ -58,16 +58,30 @@ export default class ConnectFourScene extends THREE.Scene {
         camera.lookAt(0, 0, -1);
     }
 
-    public TakeTurn() {
-        //player takes turn
+    player1: string = "red";
+    player2: string = "black";
+    currentPlayer: string = this.player1;
+
+    public TakeTurn(player: string, column: number) {
+        // Player drops a piece into the specified column
+        this.DropPiece(player, column);
+
+        // Check if the current player has won the game
+        if (this.CheckWin(player)) {
+            // If the player has won, print a message and reset the game
+            console.log(`${player} has won the game!`);
+            this.Reset();
+        }
     }
 
-    public DropPiece() {
+    public DropPiece(player: string, column: number) {
         //piece drops to lowest available spot
+        
     }
 
-    public CheckWin() {
+    public CheckWin(player: string) {
         //check for win
+
     }
 
     public Reset() {
