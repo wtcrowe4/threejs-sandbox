@@ -75,8 +75,26 @@ export default class ConnectFourScene extends THREE.Scene {
     }
 
     public DropPiece(player: string, column: number) {
-        //piece drops to lowest available spot
-        
+        // Check if the column number is valid
+        if (column < 0 || column >= this.board?.columns) {
+            console.error("Invalid column number");
+            return;
+        }
+
+        // Iterate from the bottom of the specified column upwards
+        for (let row = this.board?.rows - 1; row >= 0; row--) {
+            // If an empty spot is found, place the player's piece there
+            if (this.board?.grid[row][column] === null) {
+                this.board?.grid[row][column] = player;
+
+                // Switch the current player
+                this.currentPlayer = this.currentPlayer === this.player1 ? this.player2 : this.player1;
+                return;
+            }
+        }
+
+        // If no empty spot is found, the column is full
+        console.error("Column is full");
     }
 
     public CheckWin(player: string) {
