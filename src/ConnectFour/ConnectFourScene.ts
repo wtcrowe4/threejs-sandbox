@@ -99,7 +99,51 @@ export default class ConnectFourScene extends THREE.Scene {
 
     public CheckWin(player: string) {
         //check for win
-
+        // Check for horizontal win
+        for (let row = 0; row < this.board?.rows; row++) {
+            for (let column = 0; column < this.board?.columns - 3; column++) {
+                if (this.board?.grid[row][column] === player &&
+                    this.board?.grid[row][column + 1] === player &&
+                    this.board?.grid[row][column + 2] === player &&
+                    this.board?.grid[row][column + 3] === player) {
+                    return true;
+                }
+            }
+        }
+        // Check for vertical win
+        for (let row = 0; row < this.board?.rows - 3; row++) {
+            for (let column = 0; column < this.board?.columns; column++) {
+                if (this.board?.grid[row][column] === player &&
+                    this.board?.grid[row + 1][column] === player &&
+                    this.board?.grid[row + 2][column] === player &&
+                    this.board?.grid[row + 3][column] === player) {
+                    return true;
+                }
+            }
+        }
+        // Check for diagonal win (positive slope)
+        for (let row = 0; row < this.board?.rows - 3; row++) {
+            for (let column = 0; column < this.board?.columns - 3; column++) {
+                if (this.board?.grid[row][column] === player &&
+                    this.board?.grid[row + 1][column + 1] === player &&
+                    this.board?.grid[row + 2][column + 2] === player &&
+                    this.board?.grid[row + 3][column + 3] === player) {
+                    return true;
+                }
+            }
+        }
+        // Check for diagonal win (negative slope)
+        for (let row = 3; row < this.board?.rows; row++) {
+            for (let column = 0; column < this.board?.columns - 3; column++) {
+                if (this.board?.grid[row][column] === player &&
+                    this.board?.grid[row - 1][column + 1] === player &&
+                    this.board?.grid[row - 2][column + 2] === player &&
+                    this.board?.grid[row - 3][column + 3] === player) {
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 
     public Reset() {
