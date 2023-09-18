@@ -5,14 +5,17 @@ import ConnectFourBoard from './ConnectFourBoard';
 
 export default class ConnectFourScene extends THREE.Scene {
 
-    private board?: THREE.Group;
+    private board?: ConnectFourBoard;
+    private piece?: THREE.Group;
+    private rows: number = 8;
+    private columns: number = 8;
 
     public Initialize() {
         this.createBoard();
         this.createPieces();
         this.createLighting();
         this.createCamera();
-        this.board = new ConnectFourBoard();
+       
     }
 
     public Update() {
@@ -29,7 +32,7 @@ export default class ConnectFourScene extends THREE.Scene {
     }
 
     private createBoard() {
-        const board = new THREE.Group();
+        const board = new ConnectFourBoard(this.rows, this.columns);
         const boardGeometry = new THREE.BoxGeometry(1, 1, 1);
         const boardMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
         const boardMesh = new THREE.Mesh(boardGeometry, boardMaterial);
@@ -148,6 +151,10 @@ export default class ConnectFourScene extends THREE.Scene {
 
     public Reset() {
         //reset board
+        this.board = new ConnectFourBoard(this.rows, this.columns);
+        //reset player
+        this.currentPlayer = this.player1;
+
     }
 
 
