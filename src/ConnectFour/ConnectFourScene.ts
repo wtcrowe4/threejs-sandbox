@@ -5,10 +5,10 @@ import ConnectFourBoard from './ConnectFourBoard';
 
 export default class ConnectFourScene extends THREE.Scene {
 
-    private board?: ConnectFourBoard;
-    private piece?: THREE.Group;
-    private rows: number = 8;
-    private columns: number = 8;
+    public board?: ConnectFourBoard;
+    public piece?: THREE.Group;
+    public rows: number = 8;
+    public columns: number = 8;
 
     public Initialize() {
         this.createBoard();

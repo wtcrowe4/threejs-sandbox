@@ -23,10 +23,10 @@
        
 
         
-            private grid: THREE.Group[][];
-            private rows: number = 8;
-            private columns: number = 8;
-            private board: number[][];
+            public grid: THREE.Group[][];
+            public rows: number;
+            public columns: number;
+            public board: number[][];
 
             constructor(rows: number, columns: number) {
                 super();
