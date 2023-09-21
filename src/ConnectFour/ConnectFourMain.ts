@@ -1,12 +1,14 @@
 import * as THREE from 'three';
 import ConnectFourScene from './ConnectFourScene';
+import ConnectFourBoard from './ConnectFourBoard';
 //import * as dat from 'dat.gui';
 
-export default class PuttPuttGame {
+export default class ConnectFourGame {
     //private gui: dat.GUI;
     private camera: THREE.PerspectiveCamera;
     private renderer: THREE.WebGLRenderer;
     private scene: ConnectFourScene;
+    public board?: ConnectFourBoard;
 
     constructor() {
         // this.gui = new dat.GUI();
@@ -30,12 +32,24 @@ export default class PuttPuttGame {
     }
 
     public start(): void {
-        this.scene.Update();
+        this.Update();
         requestAnimationFrame(() => this.start());
         this.renderer.render(this.scene, this.camera);
     }
 
+    //move update logic here 
+    public Update() {
+        //update scene
+        this.TakeTurn();
+        //update board
+        this.DropPiece();
+        //check for win
+        this.CheckWin();
+        
 
+
+
+    }
 
     
 }
