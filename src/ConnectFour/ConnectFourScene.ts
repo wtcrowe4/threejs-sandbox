@@ -146,6 +146,8 @@ export default class ConnectFourScene extends THREE.Scene {
 
     }
 
+    
+
 
 
 }
