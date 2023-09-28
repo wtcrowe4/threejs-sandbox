@@ -78,12 +78,14 @@ export default class ConnectFourScene extends THREE.Scene {
             // If an empty spot is found, place the player's piece there
             if (this.board?.grid[row][column] === null) {
                 this.board?.grid[row][column] = player;
-
+                this.board?.addDiscToColumn(column, row);
                 // Switch the current player
                 this.currentPlayer = this.currentPlayer === this.player1 ? this.player2 : this.player1;
                 return;
             }
+
         }
+        
 
         // If no empty spot is found, the column is full
         console.error("Column is full");
