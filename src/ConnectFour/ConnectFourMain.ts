@@ -36,6 +36,9 @@ export default class ConnectFourGame {
         this.scene.TakeTurn(this.currentPlayer, 0);
         //check for win
         this.scene.CheckWin(this.currentPlayer);
+        //switch player
+        this.SwitchPlayer();
+        
     }
 
     player1: string = "red";
