@@ -54,13 +54,15 @@ export default class ConnectFourGame {
         }
     }
 
-    
+    public GetPlayer() {
+        return this.currentPlayer;
+    }
+
+    public GetScene() {
+        return this.scene;
+    }
 
 
-
-
-
-    
 
 
     
