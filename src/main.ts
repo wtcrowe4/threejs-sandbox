@@ -1,5 +1,6 @@
 import ShooterGame from './Shooter/ShooterMain';
 import PuttPuttGame from './PuttPutt/PuttPuttMain';
+import ConnectFourGame from './ConnectFour/ConnectFourMain';
 
 import './style.css';
 
@@ -69,3 +70,11 @@ puttPuttBtn?.addEventListener('click', () => {
     (puttPuttBtn as HTMLButtonElement).blur();
 });
 
+//connect 4 button
+const connectFourBtn = document.querySelector('#connectfourbtn');
+connectFourBtn?.addEventListener('click', () => {
+    const connectFour = new ConnectFourGame();
+    connectFour.start();
+    connectFourBtn?.setAttribute('disabled', 'true');
+    (connectFourBtn as HTMLButtonElement).blur();
+});
