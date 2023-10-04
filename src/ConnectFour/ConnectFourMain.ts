@@ -35,7 +35,7 @@ export default class ConnectFourGame {
         //update scene
         this.scene.TakeTurn(this.currentPlayer, 0);
         //check for win
-        this.scene.CheckWin(this.currentPlayer);
+        //this.scene.CheckWin(this.currentPlayer);
         //switch player
         this.SwitchPlayer();
         

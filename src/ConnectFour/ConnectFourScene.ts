@@ -59,11 +59,11 @@ export default class ConnectFourScene extends THREE.Scene {
         this.DropPiece(player, column);
 
         // Check if the current player has won the game
-        if (this.CheckWin(player)) {
-            // If the player has won, print a message and reset the game
-            console.log(`${player} has won the game!`);
-            this.Reset();
-        }
+        // if (this.CheckWin(player)) {
+        //     // If the player has won, print a message and reset the game
+        //     console.log(`${player} has won the game!`);
+        //     this.Reset();
+        // }
     }
 
     public DropPiece(player: string, column: number) {
@@ -76,9 +76,9 @@ export default class ConnectFourScene extends THREE.Scene {
         // Iterate from the bottom of the specified column upwards
         for (let row = this.rows - 1; row >= 0; row--) {
             // If an empty spot is found, place the player's piece there
-            if (this.board?.grid[row][column] === null) {
-                this.board?.grid[row][column] = player;
-                this.board?.addDiscToColumn(column, row);
+            if (this.board && this.board.grid[row][column] === null) {
+                //this.board.grid[row][column] = player;
+                this.board.addDiscToColumn(column, row);
                 // Switch the current player
                 this.currentPlayer = this.currentPlayer === this.player1 ? this.player2 : this.player1;
                 return;
@@ -89,56 +89,57 @@ export default class ConnectFourScene extends THREE.Scene {
 
         // If no empty spot is found, the column is full
         console.error("Column is full");
+
     }
 
-    public CheckWin(player: string) {
-        //check for win
-        // Check for horizontal win
-        for (let row = 0; row < this.rows; row++) {
-            for (let column = 0; column < this.columns - 3; column++) {
-                if (this.board?.grid[row][column] === player &&
-                    this.board?.grid[row][column + 1] === player &&
-                    this.board?.grid[row][column + 2] === player &&
-                    this.board?.grid[row][column + 3] === player) {
-                    return true;
-                }
-            }
-        }
-        // Check for vertical win
-        for (let row = 0; row < this.rows - 3; row++) {
-            for (let column = 0; column < this.columns; column++) {
-                if (this.board?.grid[row][column] === player &&
-                    this.board?.grid[row + 1][column] === player &&
-                    this.board?.grid[row + 2][column] === player &&
-                    this.board?.grid[row + 3][column] === player) {
-                    return true;
-                }
-            }
-        }
-        // Check for diagonal win (positive slope)
-        for (let row = 0; row < this.rows - 3; row++) {
-            for (let column = 0; column < this.board?.columns - 3; column++) {
-                if (this.board?.grid[row][column] === player &&
-                    this.board?.grid[row + 1][column + 1] === player &&
-                    this.board?.grid[row + 2][column + 2] === player &&
-                    this.board?.grid[row + 3][column + 3] === player) {
-                    return true;
-                }
-            }
-        }
-        // Check for diagonal win (negative slope)
-        for (let row = 3; row < this.rows; row++) {
-            for (let column = 0; column < this.columns - 3; column++) {
-                if (this.board?.grid[row][column] === player &&
-                    this.board?.grid[row - 1][column + 1] === player &&
-                    this.board?.grid[row - 2][column + 2] === player &&
-                    this.board?.grid[row - 3][column + 3] === player) {
-                    return true;
-                }
-            }
-        }
-        return false;
-    }
+    // public CheckWin(player: string) {
+    //     //check for win
+    //     // Check for horizontal win
+    //     for (let row = 0; row < this.rows; row++) {
+    //         for (let column = 0; column < this.columns - 3; column++) {
+    //             if (this.board?.grid[row][column] === player &&
+    //                 this.board?.grid[row][column + 1] === player &&
+    //                 this.board?.grid[row][column + 2] === player &&
+    //                 this.board?.grid[row][column + 3] === player) {
+    //                 return true;
+    //             }
+    //         }
+    //     }
+    //     // Check for vertical win
+    //     for (let row = 0; row < this.rows - 3; row++) {
+    //         for (let column = 0; column < this.columns; column++) {
+    //             if (this.board?.grid[row][column] === player &&
+    //                 this.board?.grid[row + 1][column] === player &&
+    //                 this.board?.grid[row + 2][column] === player &&
+    //                 this.board?.grid[row + 3][column] === player) {
+    //                 return true;
+    //             }
+    //         }
+    //     }
+    //     // Check for diagonal win (positive slope)
+    //     for (let row = 0; row < this.rows - 3; row++) {
+    //         for (let column = 0; column < this.board?.columns - 3; column++) {
+    //             if (this.board?.grid[row][column] === player &&
+    //                 this.board?.grid[row + 1][column + 1] === player &&
+    //                 this.board?.grid[row + 2][column + 2] === player &&
+    //                 this.board?.grid[row + 3][column + 3] === player) {
+    //                 return true;
+    //             }
+    //         }
+    //     }
+    //     // Check for diagonal win (negative slope)
+    //     for (let row = 3; row < this.rows; row++) {
+    //         for (let column = 0; column < this.columns - 3; column++) {
+    //             if (this.board?.grid[row][column] === player &&
+    //                 this.board?.grid[row - 1][column + 1] === player &&
+    //                 this.board?.grid[row - 2][column + 2] === player &&
+    //                 this.board?.grid[row - 3][column + 3] === player) {
+    //                 return true;
+    //             }
+    //         }
+    //     }
+    //     return false;
+    // }
 
     public Reset() {
         //reset board
