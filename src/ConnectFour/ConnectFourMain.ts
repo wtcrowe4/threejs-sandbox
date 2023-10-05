@@ -13,7 +13,7 @@ export default class ConnectFourGame {
         
         this.camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
         this.renderer = new THREE.WebGLRenderer();
-
+        
         this.renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.renderer.domElement);
 
@@ -38,7 +38,6 @@ export default class ConnectFourGame {
         //this.scene.CheckWin(this.currentPlayer);
         //switch player
         this.SwitchPlayer();
-        
     }
 
     player1: string = "red";
@@ -62,8 +61,4 @@ export default class ConnectFourGame {
         return this.scene;
     }
 
-
-
-
-    
 }

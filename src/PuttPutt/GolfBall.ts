@@ -77,7 +77,7 @@ export default class GolfBall extends THREE.Group {
         console.log(this.velocity)
 
         this.updatePhysics();
-        
+    
     }
 
 

@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
-import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
+//import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+//import { MTLLoader } from 'three/examples/jsm/loaders/MTLLoader.js';
 import ConnectFourBoard from './ConnectFourBoard';
 
 export default class ConnectFourScene extends THREE.Scene {
@@ -40,7 +40,7 @@ export default class ConnectFourScene extends THREE.Scene {
 
     private createLighting() {
         const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(0, 5, 5);
+        light.position.set(0, 0, 0);
         this.add(light);
     }
 
