@@ -46,7 +46,8 @@ export default class ConnectFourScene extends THREE.Scene {
 
     private createCamera() {
         const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 100);
-        camera.position.set(0, 1.5, 1.5);
+        //camera.position.set(0, 1.5, 1.5);
+        camera.position.set(0, 0, 5);
         camera.lookAt(0, 0, -1);
     }
 
