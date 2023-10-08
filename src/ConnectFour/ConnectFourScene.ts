@@ -22,18 +22,24 @@ export default class ConnectFourScene extends THREE.Scene {
 
     private createBoard() {
         const board = new ConnectFourBoard(this.rows, this.columns);
-        const boardGeometry = new THREE.BoxGeometry(1, 1, 1);
-        const boardMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+        this.board = board;
+        const boardGeometry = new THREE.BoxGeometry(1.5, 1.5, .2);
+        const boardMaterial = new THREE.MeshBasicMaterial({ color: "white" });
         const boardMesh = new THREE.Mesh(boardGeometry, boardMaterial);
+        // const boardGeometry = new THREE.BoxGeometry(1, 1, 1);
+        // const boardMaterial = new THREE.MeshPhongMaterial({ color: "white" });
+        // const boardMesh = new THREE.Mesh(boardGeometry, boardMaterial);
         //boardMesh.position.set(0, 0, 0);
         boardMesh.position.set(0, 0, -2);
+        boardMesh.rotateY(.1);
+        //boardMesh.rotateX(-.03);
         board.add(boardMesh);
         this.add(board);
     }
 
     private createPieces() {
         const pieceGeometry = new THREE.BoxGeometry(.9, .9, .9);
-        const pieceMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
+        const pieceMaterial = new THREE.MeshPhongMaterial({ color: "red" });
         const pieceMesh = new THREE.Mesh(pieceGeometry, pieceMaterial);
         pieceMesh.position.set(0, 0, 0);
         this.add(pieceMesh);
@@ -41,7 +47,7 @@ export default class ConnectFourScene extends THREE.Scene {
 
     private createLighting() {
         const light = new THREE.DirectionalLight(0xffffff, 1);
-        light.position.set(0, 0, 0);
+        light.position.set(0, 2, 0);
         this.add(light);
     }
 
