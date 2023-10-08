@@ -25,7 +25,8 @@ export default class ConnectFourScene extends THREE.Scene {
         const boardGeometry = new THREE.BoxGeometry(1, 1, 1);
         const boardMaterial = new THREE.MeshPhongMaterial({ color: 0x000000 });
         const boardMesh = new THREE.Mesh(boardGeometry, boardMaterial);
-        boardMesh.position.set(0, 0, 0);
+        //boardMesh.position.set(0, 0, 0);
+        boardMesh.position.set(0, 0, -2);
         board.add(boardMesh);
         this.add(board);
     }
