@@ -12,6 +12,7 @@ export default class ConnectFourScene extends THREE.Scene {
 
     public Initialize() {
         this.createBoard();
+        this.createHoles();
         this.createPieces();
         this.createLighting();
         this.createCamera();
@@ -35,6 +36,20 @@ export default class ConnectFourScene extends THREE.Scene {
         //boardMesh.rotateX(-.03);
         board.add(boardMesh);
         this.add(board);
+    }
+
+    private createHoles() {
+        const holeGeometry = new THREE.CylinderGeometry(.075, .075, .075, 22);
+        const holeMaterial = new THREE.MeshPhongMaterial({ color: "yellow" });
+        const holeMesh = new THREE.Mesh(holeGeometry, holeMaterial);
+        for(let i= 0; i < this.rows; i++){
+            for(let j = 0; j < this.columns; j++){
+                holeMesh.position.set(-i/10, -j/10, -1.9);
+                holeMesh.rotateX(Math.PI/2);
+                holeMesh.rotateY(.1);
+                this.add(holeMesh.clone());
+            }
+        }
     }
 
     private createPieces() {
