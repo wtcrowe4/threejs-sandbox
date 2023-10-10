@@ -76,5 +76,7 @@ connectFourBtn?.addEventListener('click', () => {
     const connectFour = new ConnectFourGame();
     connectFour.start();
     connectFourBtn?.setAttribute('disabled', 'true');
+    shooterBtn?.setAttribute('disabled', 'true');
+    puttPuttBtn?.setAttribute('disabled', 'true');
     (connectFourBtn as HTMLButtonElement).blur();
 });
