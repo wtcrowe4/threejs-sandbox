@@ -42,14 +42,18 @@ export default class ConnectFourScene extends THREE.Scene {
         const holeGeometry = new THREE.CylinderGeometry(.075, .075, .075, 22);
         const holeMaterial = new THREE.MeshPhongMaterial({ color: "yellow" });
         const holeMesh = new THREE.Mesh(holeGeometry, holeMaterial);
+        const holesGroup = new THREE.Group(); // create a new group to hold all the hole meshes
         for(let i= 0; i < this.rows; i++){
             for(let j = 0; j < this.columns; j++){
-                holeMesh.position.set(-i/10, -j/10, -1.9);
-                holeMesh.rotateX(Math.PI/2);
-                holeMesh.rotateY(.1);
-                this.add(holeMesh.clone());
+                const hole = holeMesh.clone(); // clone the hole mesh
+                hole.position.set(-i/7 + .5, -j/7 + .5, -1.9);
+                holesGroup.add(hole); 
+                this.add(holesGroup);
             }
         }
+        holesGroup.rotateX(Math.PI/2);
+        holesGroup.rotateY(.1); // rotate the group
+        this.add(holesGroup); // add the group to the scene
     }
 
     private createPieces() {
