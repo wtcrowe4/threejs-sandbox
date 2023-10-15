@@ -11,6 +11,7 @@ export default class ConnectFourScene extends THREE.Scene {
     public columns: number = 8;
 
     public Initialize() {
+        this.createTable();
         this.createBoard();
         this.createHoles();
         this.createPieces();
@@ -19,13 +20,23 @@ export default class ConnectFourScene extends THREE.Scene {
        
     }
 
+    private createTable() {
+        const tableGeometry = new THREE.BoxGeometry(3.5, 3.5, .2);
+        const tableMaterial = new THREE.MeshBasicMaterial({ color: "grey" });
+        const tableMesh = new THREE.Mesh(tableGeometry, tableMaterial);
+        tableMesh.position.set(0, -1.5, -1);
+        tableMesh.rotateX(200);
+        tableMesh.rotateY(-.05);
+        this.add(tableMesh);
+    }
+
    
 
     private createBoard() {
         const board = new ConnectFourBoard(this.rows, this.columns);
         this.board = board;
-        const boardGeometry = new THREE.BoxGeometry(1.5, 1.5, .2);
-        const boardMaterial = new THREE.MeshBasicMaterial({ color: "white" });
+        const boardGeometry = new THREE.BoxGeometry(1.5, 1.5, .4);
+        const boardMaterial = new THREE.MeshBasicMaterial({ color: "blue" });
         const boardMesh = new THREE.Mesh(boardGeometry, boardMaterial);
         // const boardGeometry = new THREE.BoxGeometry(1, 1, 1);
         // const boardMaterial = new THREE.MeshPhongMaterial({ color: "white" });
@@ -44,8 +55,8 @@ export default class ConnectFourScene extends THREE.Scene {
         const holeMesh = new THREE.Mesh(holeGeometry, holeMaterial);
         const holesGroup = new THREE.Group(); // create a new group to hold all the hole meshes
         const spacing = 1.1;
-        const xOffset = -spacing * (this.columns - 1) / 2;
-        const yOffset = -spacing * (this.rows - 1) / 2;
+        const xOffset = -spacing * (this.columns - 1) / 1.5;
+        const yOffset = -spacing * (this.rows - 1) / 1.5;
         for(let i = 0; i < this.rows; i++){
             for(let j = 0; j < this.columns; j++){
                 const hole = holeMesh.clone(); // clone the hole mesh
@@ -55,7 +66,7 @@ export default class ConnectFourScene extends THREE.Scene {
         }
         holesGroup.rotateX(Math.PI/2);
         holesGroup.rotateY(.1);
-        holesGroup.position.set(0, -2, 0); // rotate the group
+        //holesGroup.position.set(0, -2, 0); // rotate the group
         this.add(holesGroup); // add the group to the scene
     }
 
