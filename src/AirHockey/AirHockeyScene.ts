@@ -9,6 +9,7 @@ export default class AirHockeyScene extends THREE.Scene {
             this.createTable();
             this.createLighting();
             this.createCamera();
+            
         }
     
         private createTable() {
@@ -32,4 +33,6 @@ export default class AirHockeyScene extends THREE.Scene {
             this.camera.position.set(0, 0, 5);
             this.add(this.camera);
         }
+
+
     }
