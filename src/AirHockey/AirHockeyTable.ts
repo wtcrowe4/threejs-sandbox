@@ -4,11 +4,11 @@ import AirHockeyScene from './AirHockeyScene';
 export default class AirHockeyTable {
     private scene: AirHockeyScene;
     private table: THREE.Mesh;
-    private tableDesign: THREE.Mesh;
+    private tableDesign: THREE.Group;
     private tableMaterial: THREE.MeshBasicMaterial;
     private tableGeometry: THREE.BoxGeometry;
-    private tableTexture: THREE.Texture;
-    private tableTextureLoader: THREE.TextureLoader;
+    //private tableTexture: THREE.Texture;
+    //private tableTextureLoader: THREE.TextureLoader;
     private tableWidth: number;
     private tableHeight: number;
     private tableDepth: number;
@@ -29,10 +29,12 @@ export default class AirHockeyTable {
 
     constructor(scene: AirHockeyScene) {
         this.scene = scene;
-        //this.initializeTable();
+        this.tableDesign = new THREE.Group(); // initialize tableDesign
         //airhockey table design
-        this.tableDesign = new THREE.Mesh();
-        this.tableDesign.position.set(0, 0, 0);
+        const middleLine = new THREE.Mesh(new THREE.BoxGeometry(10, .1, .1), new THREE.MeshBasicMaterial({ color: "white" }));
+        middleLine.position.set(0, 0, 0);
+        this.tableDesign.add(middleLine); // add middleLine to tableDesign
+        this.tableDesign.position.set(0, 0, 0); // set position of tableDesign
         this.scene.add(this.tableDesign);
 
         this.tableWidth = 10;
@@ -41,9 +43,9 @@ export default class AirHockeyTable {
         this.tableX = 0;
         this.tableY = 0;
         this.tableZ = 0;
-        this.tableTextureLoader = new THREE.TextureLoader();
-        this.tableTexture = this.tableTextureLoader.load('src/images/wood.jpg');
-        this.tableMaterial = new THREE.MeshBasicMaterial({ map: this.tableTexture });
+        //this.tableTextureLoader = new THREE.TextureLoader();
+        
+        this.tableMaterial = new THREE.MeshBasicMaterial({color: "white" });
         this.tableGeometry = new THREE.BoxGeometry(this.tableWidth, this.tableHeight, this.tableDepth);
         this.table = new THREE.Mesh(this.tableGeometry, this.tableMaterial);
         this.table.position.set(this.tableX, this.tableY, this.tableZ);
