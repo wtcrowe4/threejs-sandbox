@@ -31,9 +31,13 @@ export default class AirHockeyTable {
         this.scene = scene;
         this.tableDesign = new THREE.Group(); // initialize tableDesign
         //airhockey table design
-        const middleLine = new THREE.Mesh(new THREE.BoxGeometry(10, .1, .1), new THREE.MeshBasicMaterial({ color: "white" }));
+        const middleLine = new THREE.Mesh(new THREE.BoxGeometry(10, .1, .1), new THREE.MeshBasicMaterial({ color: "red" }));
         middleLine.position.set(0, 0, 0);
         this.tableDesign.add(middleLine); // add middleLine to tableDesign
+        const middleCircle = new THREE.Mesh(new THREE.CircleGeometry(1, 32), new THREE.MeshBasicMaterial({ color: "blue" }));
+        middleCircle.position.set(0, 0, 0);
+        this.tableDesign.add(middleCircle); // add middleCircle to tableDesign
+
         this.tableDesign.position.set(0, 0, 0); // set position of tableDesign
         this.scene.add(this.tableDesign);
 
