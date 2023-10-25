@@ -1,6 +1,7 @@
 import ShooterGame from './Shooter/ShooterMain';
 import PuttPuttGame from './PuttPutt/PuttPuttMain';
 import ConnectFourGame from './ConnectFour/ConnectFourMain';
+import AirHockeyGame from './AirHockey/AirHockeyMain';
 
 import './style.css';
 
@@ -58,6 +59,8 @@ shooterBtn?.addEventListener('click', () => {
     //dont allow the button to be clicked again and create a new scene
     shooterBtn?.setAttribute('disabled', 'true');
     puttPuttBtn?.setAttribute('disabled', 'true');
+    airHockeyBtn?.setAttribute('disabled', 'true');
+    connectFourBtn?.setAttribute('disabled', 'true');
 });
 
 //puttputt button
@@ -67,6 +70,8 @@ puttPuttBtn?.addEventListener('click', () => {
     puttPutt.start();
     puttPuttBtn?.setAttribute('disabled', 'true');
     shooterBtn?.setAttribute('disabled', 'true');
+    connectFourBtn?.setAttribute('disabled', 'true');
+    airHockeyBtn?.setAttribute('disabled', 'true');
     (puttPuttBtn as HTMLButtonElement).blur();
 });
 
@@ -79,4 +84,16 @@ connectFourBtn?.addEventListener('click', () => {
     shooterBtn?.setAttribute('disabled', 'true');
     puttPuttBtn?.setAttribute('disabled', 'true');
     (connectFourBtn as HTMLButtonElement).blur();
+});
+
+//air hockey button
+const airHockeyBtn = document.querySelector('#airhockeybtn');
+airHockeyBtn?.addEventListener('click', () => {
+    const airHockey = new AirHockeyGame();
+    airHockey.start();
+    airHockeyBtn?.setAttribute('disabled', 'true');
+    connectFourBtn?.setAttribute('disabled', 'true');
+    shooterBtn?.setAttribute('disabled', 'true');
+    puttPuttBtn?.setAttribute('disabled', 'true');
+    (airHockeyBtn as HTMLButtonElement).blur();
 });
