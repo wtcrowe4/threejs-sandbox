@@ -7,6 +7,12 @@ export default class AirHockeyGame {
     private renderer: THREE.WebGLRenderer;
     private scene: AirHockeyScene;
     public table?: AirHockeyTable;
+    public player1: string = "red";
+    public player2: string = "black";
+    public currentPlayer: string = this.player1;
+    public puck = this.table.puck;
+    public player2Paddle = this.table.player2;
+    public player1Paddle = this.table.player1;
 
     constructor() {
         
@@ -53,6 +59,32 @@ export default class AirHockeyGame {
             // Handle goal scored
             this.scene.handleGoalScored();
         }
+    }
+
+    public SwitchPlayer() {
+        if (this.currentPlayer == this.player1) {
+            this.currentPlayer = this.player2;
+        }
+        else {
+            this.currentPlayer = this.player1;
+        }
+    }
+
+    public GetPlayer() {
+        return this.currentPlayer;
+    }
+
+    public handleGoalScored() {
+        // Reset the puck position
+        this.scene.puck.reset();
+
+        // Reset the player positions
+        this.scene.player1.reset();
+        this.scene.player2.reset();
+
+        // Switch the current player
+        this.SwitchPlayer();
+        
     }
 
 }
