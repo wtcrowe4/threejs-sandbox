@@ -40,7 +40,7 @@ export default class AirHockeyGame {
         const time = Date.now();
 
         // Update the puck position
-        this.scene.puck.update(time);
+        this.table?.puck.update(time);
 
         // Update the player paddles
         this.scene.player1.update(time);
