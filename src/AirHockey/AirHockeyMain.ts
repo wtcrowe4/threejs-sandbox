@@ -36,29 +36,13 @@ export default class AirHockeyGame {
     }
 
     public Update() {
-        // Get the current time
-        const time = Date.now();
-
-        // Update the puck position
-        this.table?.puck.update(time);
-
-        // Update the player paddles
-        this.scene.player1.update(time);
-        this.scene.player2.update(time);
-
-        // Check for collisions between the puck and the players
-        if (this.scene.puck.collidesWith(this.scene.player1)) {
-            this.scene.puck.handleCollision(this.scene.player1);
-        }
-        if (this.scene.puck.collidesWith(this.scene.player2)) {
-            this.scene.puck.handleCollision(this.scene.player2);
-        }
-
-        // Check for goals
-        if (this.scene.puck.isGoalScored()) {
-            // Handle goal scored
-            this.scene.handleGoalScored();
-        }
+        //update scene
+        this.scene.TakeTurn(this.currentPlayer, 0);
+        //check for win
+        //this.scene.CheckWin(this.currentPlayer);
+        //switch player
+        this.SwitchPlayer();
+        
     }
 
     public SwitchPlayer() {
