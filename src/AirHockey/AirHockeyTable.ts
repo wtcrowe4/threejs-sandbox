@@ -87,6 +87,19 @@ export default class AirHockeyTable {
         return this.table;
     }
 
+    public Update() {
+        this.table.position.set(this.tableX, this.tableY, this.tableZ);
+        this.table.rotateX(0);
+        this.table.rotateY(0);
+        this.table.rotateZ(0);
+        this.puck.position.set(0, 0, 0);
+        this.hitter1.position.set(0, 0, 0);
+        this.hitter2.position.set(0, 0, 0);
+        this.goal1.position.set(0, 0, 0);
+        this.goal2.position.set(0, 0, 0);
+    
+    }
+
     // public initializeTable() {
         
         

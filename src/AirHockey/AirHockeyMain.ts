@@ -10,9 +10,9 @@ export default class AirHockeyGame {
     public player1: string = "red";
     public player2: string = "black";
     public currentPlayer: string = this.player1;
-    public puck = this.table.puck;
-    public player2Paddle = this.table.player2;
-    public player1Paddle = this.table.player1;
+    // public puck = this.table.puck;
+    // public player2Paddle = this.table.player2;
+    // public player1Paddle = this.table.player1;
 
     constructor() {
         
@@ -36,40 +36,9 @@ export default class AirHockeyGame {
     }
 
     public Update() {
-        //update scene
-        this.scene.TakeTurn(this.currentPlayer, 0);
-        //check for win
-        //this.scene.CheckWin(this.currentPlayer);
-        //switch player
-        this.SwitchPlayer();
-        
-    }
-
-    public SwitchPlayer() {
-        if (this.currentPlayer == this.player1) {
-            this.currentPlayer = this.player2;
-        }
-        else {
-            this.currentPlayer = this.player1;
+        if (this.table) {
+            this.table.Update();
         }
     }
-
-    public GetPlayer() {
-        return this.currentPlayer;
-    }
-
-    public handleGoalScored() {
-        // Reset the puck position
-        this.scene.puck.reset();
-
-        // Reset the player positions
-        this.scene.player1.reset();
-        this.scene.player2.reset();
-
-        // Switch the current player
-        this.SwitchPlayer();
-        
-    }
-
 }
 
