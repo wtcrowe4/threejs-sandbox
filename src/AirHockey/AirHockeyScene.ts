@@ -1,16 +1,20 @@
 import * as THREE from 'three';
 import AirHockeyTable from './AirHockeyTable';
+import { KeyboardState } from 'three/examples/jsm/libs/KeyboardState';
+
 
 export default class AirHockeyScene extends THREE.Scene {
         public camera?: THREE.PerspectiveCamera;
         public table?: AirHockeyTable;
-    
+        public keyboard: any;
+
         public Initialize() {
             this.createTable();
             this.createLighting();
             this.createCamera();
-            
+            this.keyboard = new KeyboardState();
         }
+
     
         private createTable() {
             const table = new AirHockeyTable(this);

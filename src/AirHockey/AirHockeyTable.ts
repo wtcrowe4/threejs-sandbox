@@ -97,6 +97,36 @@ export default class AirHockeyTable {
         this.hitter2.position.set(0, 0, 0);
         this.goal1.position.set(0, 0, 0);
         this.goal2.position.set(0, 0, 0);
+
+        //update for user input
+        if (this.scene.keyboard.pressed("left")) {
+            this.hitter1.position.x -= .1;
+            
+        }
+        if (this.scene.keyboard.pressed("right")) {
+            this.hitter1.position.x += .1;
+        }
+        if (this.scene.keyboard.pressed("up")) {
+            this.hitter1.position.z -= .1;
+        }
+        if (this.scene.keyboard.pressed("down")) {
+            this.hitter1.position.z += .1;
+        }
+
+
+        //update over time
+        const time = Date.now() * 0.0005;
+        const delta = 0.01;
+        const speed = 1;
+        const radius = 5;
+        const angle = speed * time * 2;
+        const x = Math.cos(angle) * radius;
+        const y = Math.sin(angle) * radius;
+        const z = Math.sin(angle) * radius;
+        this.puck.position.set(x, y, z);
+        this.hitter1.position.set(x, y, z);
+        this.hitter2.position.set(x, y, z);
+        
     
     }
 
