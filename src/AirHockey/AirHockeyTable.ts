@@ -113,6 +113,76 @@ export default class AirHockeyTable {
             this.hitter1.position.z += .1;
         }
 
+        //mouse user input
+        if (this.scene.mouse.isPressed) {
+            this.hitter1.position.x = this.scene.mouse.x;
+            this.hitter1.position.y = this.scene.mouse.y;
+        }
+
+        //update for AI
+        if (this.puck.position.x > this.hitter2.position.x) {
+            this.hitter2.position.x += .1;
+        }
+        if (this.puck.position.x < this.hitter2.position.x) {
+            this.hitter2.position.x -= .1;
+        }
+        if (this.puck.position.y > this.hitter2.position.y) {
+            this.hitter2.position.y += .1;
+        }
+
+        if (this.puck.position.y < this.hitter2.position.y) {
+            this.hitter2.position.y -= .1;
+        }
+
+        if (this.puck.position.z > this.hitter2.position.z) {
+            this.hitter2.position.z += .1;
+        }
+
+        if (this.puck.position.z < this.hitter2.position.z) {
+            this.hitter2.position.z -= .1;
+        }
+
+        //update for goals
+        if (this.puck.position.x > this.goal1.position.x) {
+            this.goal1.position.x += .1;
+        }
+        if (this.puck.position.x < this.goal1.position.x) {
+            this.goal1.position.x -= .1;
+        }
+        if (this.puck.position.y > this.goal1.position.y) {
+            this.goal1.position.y += .1;
+        }
+        if (this.puck.position.y < this.goal1.position.y) {
+            this.goal1.position.y -= .1;
+        }
+        if (this.puck.position.z > this.goal1.position.z) {
+            this.goal1.position.z += .1;
+        }
+        if (this.puck.position.z < this.goal1.position.z) {
+            this.goal1.position.z -= .1;
+        }
+
+        if (this.puck.position.x > this.goal2.position.x) {
+            this.goal2.position.x += .1;
+        }
+        if (this.puck.position.x < this.goal2.position.x) {
+            this.goal2.position.x -= .1;
+        }
+        if (this.puck.position.y > this.goal2.position.y) {
+            this.goal2.position.y += .1;
+        }
+        if (this.puck.position.y < this.goal2.position.y) {
+            this.goal2.position.y -= .1;
+        }
+        if (this.puck.position.z > this.goal2.position.z) {
+            this.goal2.position.z += .1;
+        }
+        if (this.puck.position.z < this.goal2.position.z) {
+            this.goal2.position.z -= .1;
+        }
+
+
+
 
         //update over time
         const time = Date.now() * 0.0005;

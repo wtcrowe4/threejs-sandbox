@@ -7,12 +7,14 @@ export default class AirHockeyScene extends THREE.Scene {
         public camera?: THREE.PerspectiveCamera;
         public table?: AirHockeyTable;
         public keyboard: any;
+        public mouse: any;
 
         public Initialize() {
             this.createTable();
             this.createLighting();
             this.createCamera();
             this.keyboard = new KeyboardState();
+            this.mouse = new THREE.Vector2();
         }
 
     
