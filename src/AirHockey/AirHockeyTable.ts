@@ -98,7 +98,7 @@ export default class AirHockeyTable {
         this.goal1.position.set(0, 0, 0);
         this.goal2.position.set(0, 0, 0);
 
-        //update for user input
+        //update for keyboard user input
         if (this.scene.keyboard.pressed("left")) {
             this.hitter1.position.x -= .1;
             
@@ -117,6 +117,9 @@ export default class AirHockeyTable {
         if (this.scene.mouse.isPressed) {
             this.hitter1.position.x = this.scene.mouse.x;
             this.hitter1.position.y = this.scene.mouse.y;
+            this.hitter1.position.z = this.scene.mouse.z;
+            
+
         }
 
         //update for AI
@@ -196,6 +199,7 @@ export default class AirHockeyTable {
         this.puck.position.set(x, y, z);
         this.hitter1.position.set(x, y, z);
         this.hitter2.position.set(x, y, z);
+
         
     
     }
