@@ -184,6 +184,85 @@ export default class AirHockeyTable {
             this.goal2.position.z -= .1;
         }
 
+        //update for collisions
+        if (this.puck.position.x > this.hitter1.position.x) {
+            this.puck.position.x += .1;
+        }
+        if (this.puck.position.x < this.hitter1.position.x) {
+            this.puck.position.x -= .1;
+        }
+        if (this.puck.position.y > this.hitter1.position.y) {
+            this.puck.position.y += .1;
+        }
+        if (this.puck.position.y < this.hitter1.position.y) {
+            this.puck.position.y -= .1;
+        }
+        if (this.puck.position.z > this.hitter1.position.z) {
+            this.puck.position.z += .1;
+        }
+        if (this.puck.position.z < this.hitter1.position.z) {
+            this.puck.position.z -= .1;
+        }
+
+        if (this.puck.position.x > this.hitter2.position.x) {
+            this.puck.position.x += .1;
+        }
+        if (this.puck.position.x < this.hitter2.position.x) {
+            this.puck.position.x -= .1;
+        }
+        if (this.puck.position.y > this.hitter2.position.y) {
+            this.puck.position.y += .1;
+        }
+        if (this.puck.position.y < this.hitter2.position.y) {
+            this.puck.position.y -= .1;
+        }
+        if (this.puck.position.z > this.hitter2.position.z) {
+            this.puck.position.z += .1;
+        }
+        if (this.puck.position.z < this.hitter2.position.z) {
+            this.puck.position.z -= .1;
+        }
+
+        //update for puck
+        if (this.puck.position.x > this.table.position.x) {
+            this.puck.position.x += .1;
+        }
+        if (this.puck.position.x < this.table.position.x) {
+            this.puck.position.x -= .1;
+        }
+        if (this.puck.position.y > this.table.position.y) {
+            this.puck.position.y += .1;
+        }
+        if (this.puck.position.y < this.table.position.y) {
+            this.puck.position.y -= .1;
+        }
+        if (this.puck.position.z > this.table.position.z) {
+            this.puck.position.z += .1;
+        }
+        if (this.puck.position.z < this.table.position.z) {
+            this.puck.position.z -= .1;
+        }
+
+        //update for hitter1
+        if (this.hitter1.position.x > this.table.position.x) {
+            this.hitter1.position.x += .1;
+        }
+        if (this.hitter1.position.x < this.table.position.x) {
+            this.hitter1.position.x -= .1;
+        }
+        if (this.hitter1.position.y > this.table.position.y) {
+            this.hitter1.position.y += .1;
+        }
+        if (this.hitter1.position.y < this.table.position.y) {
+            this.hitter1.position.y -= .1;
+        }
+        if (this.hitter1.position.z > this.table.position.z) {
+            this.hitter1.position.z += .1;
+        }
+        if (this.hitter1.position.z < this.table.position.z) {
+            this.hitter1.position.z -= .1;
+        }
+        
 
 
 
