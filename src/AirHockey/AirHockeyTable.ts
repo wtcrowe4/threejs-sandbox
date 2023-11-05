@@ -93,10 +93,10 @@ export default class AirHockeyTable {
         this.table.rotateY(0);
         this.table.rotateZ(0);
         this.puck.position.set(0, 0, 0);
-        this.hitter1.position.set(0, 0, 0);
-        this.hitter2.position.set(0, 0, 0);
-        this.goal1.position.set(0, 0, 0);
-        this.goal2.position.set(0, 0, 0);
+        this.hitter1.position.set(0, 0, -.9);
+        this.hitter2.position.set(0, 0, .9);
+        this.goal1.position.set(0, 0, 1);
+        this.goal2.position.set(0, 0, -1);
 
         //update for keyboard user input
         if (this.scene.keyboard.pressed("left")) {
@@ -118,6 +118,7 @@ export default class AirHockeyTable {
             this.hitter1.position.x = this.scene.mouse.x;
             this.hitter1.position.y = this.scene.mouse.y;
             this.hitter1.position.z = this.scene.mouse.z;
+
             
 
         }
@@ -262,7 +263,7 @@ export default class AirHockeyTable {
         if (this.hitter1.position.z < this.table.position.z) {
             this.hitter1.position.z -= .1;
         }
-        
+
 
 
 
@@ -283,12 +284,6 @@ export default class AirHockeyTable {
     
     }
 
-    // public initializeTable() {
-        
-        
-    // }
 
-    // public initializePieces() {
-        
-    // }
+
 }
