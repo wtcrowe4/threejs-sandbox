@@ -92,11 +92,11 @@ export default class AirHockeyTable {
         this.table.rotateX(0);
         this.table.rotateY(0);
         this.table.rotateZ(0);
-        this.puck.position.set(0, 0, 0);
-        this.hitter1.position.set(0, 0, -.9);
-        this.hitter2.position.set(0, 0, .9);
-        this.goal1.position.set(0, 0, 1);
-        this.goal2.position.set(0, 0, -1);
+        this.puck.position.set(0, .1, 0);
+        this.hitter1.position.set(0, 0, -.8);
+        this.hitter2.position.set(0, 0, .8);
+        this.goal1.position.set(0, .1, 1);
+        this.goal2.position.set(0, .1, -1);
 
         //update for keyboard user input
         if (this.scene.keyboard.pressed("left")) {
